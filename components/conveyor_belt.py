@@ -3,19 +3,19 @@ from services.logger import Logger
 
 class ConveyorBelt:
     def __init__(self):
-        self.logger = Logger("Conveyor Belt")
-        self.is_running = False
+        self._logger = Logger("Conveyor Belt")
+        self._is_running = False
 
     def start(self):
-        if self.is_running:
-            self.logger.warning("Trying to start the conveyor belt while it is already running!")
+        if self._is_running:
+            self._logger.warning("Trying to start the conveyor belt while it is already running!")
             return
-        self.is_running = True
-        self.logger.info("Conveyor belt started")
+        self._is_running = True
+        self._logger.info("Conveyor belt started")
 
     def stop(self):
-        if not self.is_running:
-            self.logger.warning("Trying to stop the conveyor belt while it is already stopped!")
+        if not self._is_running:
+            self._logger.warning("Trying to stop the conveyor belt while it is already stopped!")
             return
-        self.is_running = False
-        self.logger.info("Conveyor belt stopped")
+        self._is_running = False
+        self._logger.info("Conveyor belt stopped")
