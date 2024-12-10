@@ -1,5 +1,6 @@
 from services.logger import Logger
 
+
 class VibratoryPlate:
     def __init__(self):
         self.logger = Logger("Vibratory Plate")

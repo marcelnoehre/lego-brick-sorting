@@ -3,6 +3,7 @@ from config.log_colors import LOG_COLORS
 from services.logger import Logger
 from components.machine import Machine
 
+
 def print_commands():
     print(f"""{LOG_COLORS["bold_underlined_purple"]}Lego Brick Sorting Machine!{LOG_COLORS["reset"]}""")
     print(f"* {LOG_COLORS['blue']}start{LOG_COLORS['reset']} - Starts the sorting machine")
@@ -15,7 +16,7 @@ def user_input():
     global is_running
     is_running = False
     logger = Logger("System")
-    
+
     while True:
         command = input("").strip().lower()
         if command == "start":

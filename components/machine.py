@@ -1,6 +1,7 @@
 import time
 from services.logger import Logger
 
+
 class Machine:
     def __init__(self):
         self.logger = Logger("Machine")

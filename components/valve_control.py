@@ -1,5 +1,6 @@
 from services.logger import Logger
 
+
 class ValveControl:
     def __init__(self):
         self.logger = Logger("Valve Control")

@@ -1,6 +1,7 @@
 import datetime
 from config.log_colors import LOG_COLORS
 
+
 class Logger:
     def __init__(self, name):
         self.name = name
@@ -9,7 +10,11 @@ class Logger:
         return datetime.datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
 
     def _log(self, msg, color, level):
-        print(f"{LOG_COLORS['green']}{self._current_time()}{LOG_COLORS['white']} | {LOG_COLORS[color]}{level}{LOG_COLORS['white']} | {LOG_COLORS['purple']}[{self.name}] {LOG_COLORS['reset']}{msg}")
+        timestamp = f"{LOG_COLORS['green']}{self._current_time()}"
+        seperator = f"{LOG_COLORS['white']} | "
+        level = f"{LOG_COLORS[color]}{level}"
+        msg = f"{LOG_COLORS['purple']}[{self.name}] {LOG_COLORS['reset']}{msg}"
+        print(timestamp + seperator + level + seperator + msg)
 
     def info(self, msg):
         self._log(msg, "cyan", " INFO  ")

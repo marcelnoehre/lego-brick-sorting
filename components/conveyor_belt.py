@@ -1,5 +1,6 @@
 from services.logger import Logger
 
+
 class ConveyorBelt:
     def __init__(self):
         self.logger = Logger("Conveyor Belt")
