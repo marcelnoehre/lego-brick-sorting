@@ -50,3 +50,52 @@ class LightBarrier:
                 time.sleep(self.interval)
         finally:
             GPIO.cleanup()
+
+    def subscribe(self, callback):
+        """
+        Subscribes to the event that is triggered when the light barrier is interrupted or completed.
+
+        :param callback: The callback function to be called when the barrier is interrupted or completed.
+        """
+        if callback not in self._callbacks:
+            self._callbacks.append(callback)
+
+    def unsubscribe(self, callback):
+        """
+        Unsubscribes from the event.
+
+        :param callback: The callback function to be removed from the subscription list.
+        """
+        if callback in self._callbacks:
+            self._callbacks.remove(callback)
+
+    def start(self):
+        """
+        Starts monitoring the light barrier sensor.
+        """
+        if self.is_running:
+            self._logger.warning("Trying to start monitoring while it is already running!")
+            return
+        if self.monitoring_thread is not None:
+            self._logger.error("Monitoring thread already exists!")
+            return
+        self.monitoring_thread = threading.Thread(target=self._monitor)
+        self.monitoring_thread.daemon = True
+        self.monitoring_thread.start()
+        self._is_running = True
+        self._logger.info("Monitoring started")
+
+    def stop(self):
+        """
+        Stops monitoring the light barrier sensor.
+        """
+        if not self.is_running:
+            self._logger.warning("Trying to stop monitoring while it is already stopped!")
+            return
+        if not self.monitoring_thread:
+            self._logger.error("Monitoring thread does not exist!")
+            return
+        self._monitoring_thread.join()
+        self._monitoring_thread = None
+        self._is_running = False
+        self._logger.info("Monitoring stopped")
