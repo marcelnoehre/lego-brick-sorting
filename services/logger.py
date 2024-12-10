@@ -12,10 +12,10 @@ class Logger:
         print(f"{LOG_COLORS['green']}{self._current_time()}{LOG_COLORS['white']} | {LOG_COLORS[color]}{level}{LOG_COLORS['white']} | {LOG_COLORS['purple']}[{self.name}] {LOG_COLORS['reset']}{msg}")
 
     def info(self, msg):
-        self._log(msg, "cyan", "INFO   ")
+        self._log(msg, "cyan", " INFO  ")
 
     def warning(self, msg):
         self._log(msg, "yellow", "WARNING")
 
     def error(self, msg):
-        self._log(msg, "red", "ERROR  ")
+        self._log(msg, "red", " ERROR ")
