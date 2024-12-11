@@ -17,9 +17,17 @@ class Machine:
             self._vibratory_plate = VibratoryPlate()
 
     def start(self):
+        self._conveyor_belt.start()
+        if FLAGS["vibratory_plate"]:
+            self._vibratory_plate.start()
         self._is_running = True
         self._logger.info("Machine started")
 
     def stop(self):
+        self._color_box.turnLightOff()
+        self._valve_control.closeAllValves()
+        self._conveyor_belt.stop()
+        if FLAGS["vibratory_plate"]:
+            self._vibratory_plate.stop()
         self._is_running = False
         self._logger.info("Machine stopped")

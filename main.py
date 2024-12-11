@@ -38,6 +38,9 @@ def user_input():
                 logger.warning("The sorting machine is not running!")
 
         elif command == "quit":
+            if is_running:
+                logger.warning("The sorting machine is still running! Please stop it before quitting.")
+                return
             logger.info("Quitting the program")
             exit()
 

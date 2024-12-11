@@ -25,3 +25,8 @@ class ValveControl:
             return
         self._valves[valve_id] = False
         self._logger.info(f"Valve {valve_id} closed")
+
+    def closeAllValves(self):
+        for i in range(len(self._valves)):
+            self._valves[i] = False
+        self._logger.info("All valves closed")
