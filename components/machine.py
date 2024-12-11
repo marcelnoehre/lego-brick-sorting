@@ -1,3 +1,4 @@
+from config.flags import FLAGS
 from services.logger import Logger
 from components.color_box import ColorBox
 from components.valve_control import ValveControl
@@ -12,7 +13,8 @@ class Machine:
         self._color_box = ColorBox()
         self._valve_control = ValveControl()
         self._conveyor_belt = ConveyorBelt()
-        self._vibratory_plate = VibratoryPlate()
+        if FLAGS["vibratory_plate"]:
+            self._vibratory_plate = VibratoryPlate()
 
     def start(self):
         self._is_running = True
