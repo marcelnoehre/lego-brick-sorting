@@ -9,7 +9,9 @@ class LightBarrier:
         """
         Initializes the light barrier sensor on a specified GPIO pin.
 
+        :param id: The ID of the light barrier sensor
         :param pin: The GPIO pin connected to the light barrier sensor
+        :param interval: The interval in seconds in which the sensor state is checked
         """
         self.id = id
         self.pin = pin
@@ -23,9 +25,7 @@ class LightBarrier:
         GPIO.setup(self.pin, GPIO.IN)
 
     def _check_sensor_state(self):
-        """
-        Checks the current state of the sensor and emits an event if the state has changed.
-        """
+        """Checks the current state of the sensor and emits an event if the state has changed."""
         value = GPIO.input(self.pin)
         if value != self._value:
             self._value = value
@@ -41,9 +41,7 @@ class LightBarrier:
             callback(value)
 
     def _monitor(self):
-        """
-        Starts monitoring the sensor and checks for changes in a separate thread.
-        """
+        """Starts monitoring the sensor and checks for changes in a separate thread."""
         try:
             while self._monitoring_thread is not None:
                 self._check_sensor_state()
@@ -70,9 +68,7 @@ class LightBarrier:
             self._callbacks.remove(callback)
 
     def start(self):
-        """
-        Starts monitoring the light barrier sensor.
-        """
+        """Starts monitoring the light barrier sensor."""
         if self.is_running:
             self._logger.warning("Trying to start monitoring while it is already running!")
             return
@@ -86,9 +82,7 @@ class LightBarrier:
         self._logger.info("Monitoring started")
 
     def stop(self):
-        """
-        Stops monitoring the light barrier sensor.
-        """
+        """Stops monitoring the light barrier sensor."""
         if not self.is_running:
             self._logger.warning("Trying to stop monitoring while it is already stopped!")
             return

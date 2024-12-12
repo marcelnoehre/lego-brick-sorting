@@ -8,6 +8,7 @@ from components.vibratory_plate import VibratoryPlate
 
 class Machine:
     def __init__(self):
+        """Initializes the machine component."""
         self._logger = Logger("Machine")
         self._is_running = False
         self._color_box = ColorBox()
@@ -17,6 +18,7 @@ class Machine:
             self._vibratory_plate = VibratoryPlate()
 
     def start(self):
+        """Starts the machine."""
         self._conveyor_belt.start()
         if FLAGS["vibratory_plate"]:
             self._vibratory_plate.start()
@@ -24,6 +26,7 @@ class Machine:
         self._logger.info("Machine started")
 
     def stop(self):
+        """Stops the machine."""
         self._color_box.turnLightOff()
         self._valve_control.closeAllValves()
         self._conveyor_belt.stop()

@@ -5,6 +5,7 @@ from components.machine import Machine
 
 
 def print_commands():
+    """Prints the available user commands."""
     print(f"""{LOG_COLORS["bold_underlined_purple"]}Lego Brick Sorting Machine!{LOG_COLORS["reset"]}""")
     print(f"* {LOG_COLORS['blue']}start{LOG_COLORS['reset']} - Starts the sorting machine")
     print(f"* {LOG_COLORS['blue']}stop{LOG_COLORS['reset']} - Stops the sorting machine")
@@ -12,6 +13,7 @@ def print_commands():
 
 
 def user_input():
+    """Handles the user input. The user can start, stop, or quit the program."""
     global machine_thread
     global is_running
     is_running = False

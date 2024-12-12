@@ -1,4 +1,1 @@
-FLAGS = {
-    "debug": True,
-    "vibratory_flag": False
-}
+FLAGS = {"debug": True, "vibratory_flag": False}
