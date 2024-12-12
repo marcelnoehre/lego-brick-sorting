@@ -8,6 +8,10 @@ class ValveControl:
         self._valves = [False] * 16
         self._logger.info("Valve control initialized")
 
+    def __del__(self):
+        """Cleans up the valve control component."""
+        self.closeAllValves()
+
     def openValve(self, valve_id):
         """
         Opens the specified valve.

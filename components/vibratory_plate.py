@@ -8,6 +8,11 @@ class VibratoryPlate:
         self._is_running = False
         self._logger.info("Vibratory plate initialized")
 
+    def __del__(self):
+        """Cleans up the vibratory plate component."""
+        if self._is_running:
+            self.stop()
+
     def start(self):
         """Starts the vibratory plate."""
         if self._is_running:

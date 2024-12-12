@@ -8,6 +8,11 @@ class ConveyorBelt:
         self._is_running = False
         self._logger.info("Conveyor belt initialized")
 
+    def __del__(self):
+        """Cleans up the conveyor belt component."""
+        if self._is_running:
+            self.stop()
+
     def start(self):
         """Starts the conveyor belt."""
         if self._is_running:

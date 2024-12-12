@@ -42,11 +42,8 @@ class Machine:
         """Cleans up the machine component."""
         self._color_box_light_barrier.unsubscribe(self._handle_color_box_light_barrier_event)
         self._valve_init_light_barrier.unsubscribe(self._handle_valve_init_light_barrier_event)
-        self._color_box_light_barrier.stop()
-        self._valve_init_light_barrier.stop()
         if FLAGS["vibratory_plate"]:
             self._vibratory_plate_light_barrier.unsubscribe(self._handle_vibratory_plate_light_barrier_event)
-            self._vibratory_plate_light_barrier.stop()
 
     def _handle_color_box_light_barrier_event(self, value):
         """

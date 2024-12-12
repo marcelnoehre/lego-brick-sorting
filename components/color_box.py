@@ -8,6 +8,11 @@ class ColorBox:
         self._light_on = False
         self._logger.info("Color box initialized")
 
+    def __del__(self):
+        """Cleans up the color box component."""
+        if self._light_on:
+            self.turnLightOff()
+
     def turnLightOn(self):
         """Turns the light on."""
         if self._light_on:

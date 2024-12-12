@@ -25,6 +25,11 @@ class LightBarrier:
         GPIO.setup(self.pin, GPIO.IN)
         self._logger.info("Light barrier initialized")
 
+    def __del__(self):
+        """Cleans up the light barrier sensor."""
+        if self._is_running:
+            self.stop()
+
     def _check_sensor_state(self):
         """Checks the current state of the sensor and emits an event if the state has changed."""
         value = GPIO.input(self.pin)
