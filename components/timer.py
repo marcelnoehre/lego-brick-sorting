@@ -12,7 +12,7 @@ class Timer:
         self._instances.clear()
         self._logger.info("Timer cleaned up")
 
-    def emit_event(self, id):
+    def _emit_event(self, id):
         """
         Emits an event for a timer that has completed its countdown.
 
@@ -53,6 +53,6 @@ class Timer:
             if timer["initialized"]:
                 timer["duration"] -= delta_time
                 if timer["duration"] <= 0:
-                    self.emit_event(timer["id"])
+                    self._emit_event(timer["id"])
                     self._instances.remove(timer)
         self._logger.info("Timers updated")

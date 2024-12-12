@@ -1,11 +1,13 @@
 from config.flags import FLAGS
 from config.hardware_config import RASPBERRY_PI_CONFIG
+from config.brick_colors import BRICK_COLORS
 from services.logger import Logger
 from components.color_box import ColorBox
 from components.valve_control import ValveControl
 from components.conveyor_belt import ConveyorBelt
 from components.vibratory_plate import VibratoryPlate
 from components.light_barrier import LightBarrier
+from components.timer import Timer
 
 
 class Machine:
@@ -36,6 +38,7 @@ class Machine:
                 RASPBERRY_PI_CONFIG["light_barrier_interval"],
             )
             self._vibratory_plate_light_barrier.subscribe(self._handle_vibratory_plate_light_barrier_event)
+        self._timer = Timer()
         self._logger.info("Machine initialized")
 
     def __del__(self):
@@ -51,7 +54,12 @@ class Machine:
 
         :param value: The new sensor value (0 for interruption, 1 for light)
         """
-        pass
+        if value == 0:
+            self._conveyor_belt.stop()
+            self._color_box.turnLightOn()
+            color = self._color_box.getColor()
+            self._timer.initialize(BRICK_COLORS[color]["id"], BRICK_COLORS[color]["duration"])
+            self._conveyor_belt.start()
 
     def _handle_valve_init_light_barrier_event(self, value):
         """
@@ -59,7 +67,8 @@ class Machine:
 
         :param value: The new sensor value (0 for interruption, 1 for light)
         """
-        pass
+        if value == 0:
+            self._timer.start()
 
     def _handle_vibratory_plate_light_barrier_event(self, value):
         """
@@ -67,7 +76,8 @@ class Machine:
 
         :param value: The new sensor value (0 for interruption, 1 for light)
         """
-        pass
+        if value == 0:
+            self._vibratory_plate.stop()
 
     def start(self):
         """Starts the machine."""

@@ -35,3 +35,9 @@ class ColorBox:
         GPIO.output(RASPBERRY_PI_CONFIG["led_pin"], GPIO.LOW)
         self._light_on = False
         self._logger.info("Light turned off")
+
+    def getColor(self):
+        """Returns the color detected by the color sensor."""
+        color = "unrecognized"
+        self._logger.info("Color detected: " + color)
+        return color
