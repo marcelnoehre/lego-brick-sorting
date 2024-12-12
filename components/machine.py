@@ -40,7 +40,7 @@ class Machine:
                 TIME["light_barrier_interval"],
             )
             self._vibratory_plate_light_barrier.subscribe(self._handle_vibratory_plate_light_barrier_event)
-        self._timer = Timer()
+        self._timer = Timer(self._toggle_valve)
         self._tick_thread = None
         self._logger.info("Machine initialized")
 
@@ -88,6 +88,16 @@ class Machine:
         """
         if value == 0:
             self._vibratory_plate.stop()
+        
+    def _toggle_valve(self, id):
+        """
+        Toggles the valve with the specified ID.
+
+        :param id: The ID of the valve to toggle
+        """
+        self._valve_control.openValve(id)
+        time.sleep(TIME["valve_open_duration"])
+        self._valve_control.closeValve(id)
 
     def start(self):
         """Starts the machine."""
