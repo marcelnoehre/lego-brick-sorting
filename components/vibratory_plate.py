@@ -9,7 +9,7 @@ class VibratoryPlate:
         self._logger = Logger("Vibratory Plate")
         self._is_running = False
         self._light_barrier = LightBarrier(
-            "Light Barrier (Vibratory Plate)", RASPBERRY_PI_CONFIG["vibratory_plate_light_barrier_pin"], 0.1
+            "Light Barrier (Vibratory Plate)", RASPBERRY_PI_CONFIG["vibratory_plate_light_barrier_pin"], RASPBERRY_PI_CONFIG["light_barrier_interval"]
         )
         self._light_barrier.subscribe(self._handle_light_barrier_event)
         self._light_barrier.start()

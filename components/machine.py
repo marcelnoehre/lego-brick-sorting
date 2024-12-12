@@ -1,9 +1,11 @@
 from config.flags import FLAGS
+from config.hardware_config import RASPBERRY_PI_CONFIG
 from services.logger import Logger
 from components.color_box import ColorBox
 from components.valve_control import ValveControl
 from components.conveyor_belt import ConveyorBelt
 from components.vibratory_plate import VibratoryPlate
+from components.light_barrier import LightBarrier
 
 
 class Machine:
@@ -14,12 +16,48 @@ class Machine:
         self._color_box = ColorBox()
         self._valve_control = ValveControl()
         self._conveyor_belt = ConveyorBelt()
+        self._color_box_light_barrier = LightBarrier(
+            "Color Box Light Barrier", RASPBERRY_PI_CONFIG["color_box_light_barrier_pin"], RASPBERRY_PI_CONFIG["light_barrier_interval"]
+        )
+        self._valve_init_light_barrier = LightBarrier(
+            "Valve Init Light Barrier", RASPBERRY_PI_CONFIG["valve_init_light_barrier_pin"], RASPBERRY_PI_CONFIG["light_barrier_interval"]
+        )
+        self._color_box_light_barrier.subscribe(self._handle_color_box_light_barrier_event)
+        self._valve_init_light_barrier.subscribe(self._handle_valve_init_light_barrier_event)
         if FLAGS["vibratory_plate"]:
             self._vibratory_plate = VibratoryPlate()
         self._logger.info("Machine initialized")
 
+    def __del__(self):
+        """Cleans up the machine component."""
+        self._color_box_light_barrier.unsubscribe(self._handle_color_box_light_barrier_event)
+        self._valve_init_light_barrier.unsubscribe(self._handle_valve_init_light_barrier_event)
+        self._color_box_light_barrier.stop()
+        self._valve_init_light_barrier.stop()
+        if FLAGS["vibratory_plate"]:
+            self._vibratory_plate.stop()
+
+    def _handle_color_box_light_barrier_event(self, value):
+        """
+        Handles the color box light barrier event.
+
+        :param value: The new sensor value (0 for interruption, 1 for light)
+        """
+        pass
+
+    def _handle_valve_init_light_barrier_event(self, value):
+        """
+        Handles the valve init light barrier event.
+
+        :param value: The new sensor value (0 for interruption, 1 for light)
+        """
+        pass
+
+
     def start(self):
         """Starts the machine."""
+        self._color_box_light_barrier.start()
+        self._valve_init_light_barrier.start()
         self._conveyor_belt.start()
         if FLAGS["vibratory_plate"]:
             self._vibratory_plate.start()
@@ -28,6 +66,8 @@ class Machine:
 
     def stop(self):
         """Stops the machine."""
+        self._color_box_light_barrier.stop()
+        self._valve_init_light_barrier.stop()
         self._color_box.turnLightOff()
         self._valve_control.closeAllValves()
         self._conveyor_belt.stop()
