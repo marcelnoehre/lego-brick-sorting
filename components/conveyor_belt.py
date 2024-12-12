@@ -28,3 +28,7 @@ class ConveyorBelt:
             return
         self._is_running = False
         self._logger.info("Conveyor belt stopped")
+
+    def is_running(self):
+        """Returns whether the conveyor belt is running."""
+        return self._is_running

@@ -1,5 +1,6 @@
 from services.logger import Logger
 
+
 class Timer:
     def __init__(self, function):
         """Initializes the timer component."""
@@ -28,7 +29,7 @@ class Timer:
         :param id: The ID of the valve to open
         :param duration: The duration of the timer instance in ms
         """
-        self._instances.append({"id": id, "duration": duration, "initialized": False})  
+        self._instances.append({"id": id, "duration": duration, "initialized": False})
         self._logger.info(f"Timer instance for valve {id} initialized with a duration of {duration} ms")
 
     def start(self):

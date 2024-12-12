@@ -81,8 +81,7 @@ class LightBarrier:
         if self.monitoring_thread is not None:
             self._logger.error("Monitoring thread already exists!")
             return
-        self.monitoring_thread = threading.Thread(target=self._monitor)
-        self.monitoring_thread.daemon = True
+        self.monitoring_thread = threading.Thread(target=self._monitor, daemon=True)
         self.monitoring_thread.start()
         self._is_running = True
         self._logger.info("Monitoring started")
