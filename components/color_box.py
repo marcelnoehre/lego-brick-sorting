@@ -6,6 +6,7 @@ class ColorBox:
         """Initializes the color box component."""
         self._logger = Logger("Color Box")
         self._light_on = False
+        self._logger.info("Color box initialized")
 
     def turnLightOn(self):
         """Turns the light on."""

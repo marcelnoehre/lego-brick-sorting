@@ -6,6 +6,7 @@ class ConveyorBelt:
         """Initializes the conveyor belt component."""
         self._logger = Logger("Conveyor Belt")
         self._is_running = False
+        self._logger.info("Conveyor belt initialized")
 
     def start(self):
         """Starts the conveyor belt."""

@@ -6,6 +6,7 @@ class ValveControl:
         """Initializes the valve control component."""
         self._logger = Logger("Valve Control")
         self._valves = [False] * 16
+        self._logger.info("Valve control initialized")
 
     def openValve(self, valve_id):
         """

@@ -16,6 +16,7 @@ class Machine:
         self._conveyor_belt = ConveyorBelt()
         if FLAGS["vibratory_plate"]:
             self._vibratory_plate = VibratoryPlate()
+        self._logger.info("Machine initialized")
 
     def start(self):
         """Starts the machine."""

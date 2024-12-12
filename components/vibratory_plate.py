@@ -13,7 +13,7 @@ class VibratoryPlate:
         )
         self._light_barrier.subscribe(self._handle_light_barrier_event)
         self._light_barrier.start()
-        self.start()
+        self._logger.info("Vibratory plate initialized")
 
     def __del__(self):
         """Cleans up the vibratory plate component."""

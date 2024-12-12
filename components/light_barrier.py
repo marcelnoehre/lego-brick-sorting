@@ -23,6 +23,7 @@ class LightBarrier:
         self._monitoring_thread = None
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.IN)
+        self._logger.info("Light barrier initialized")
 
     def _check_sensor_state(self):
         """Checks the current state of the sensor and emits an event if the state has changed."""
