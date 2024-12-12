@@ -38,6 +38,7 @@ class ColorBox:
 
     def getColor(self):
         """Returns the color detected by the color sensor."""
+        # TODO: Get Color by reading the sensor
         color = "unrecognized"
         self._logger.info("Color detected: " + color)
         return color

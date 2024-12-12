@@ -88,7 +88,7 @@ class Machine:
         """
         if value == 0:
             self._vibratory_plate.stop()
-        
+
     def _toggle_valve(self, id):
         """
         Toggles the valve with the specified ID.

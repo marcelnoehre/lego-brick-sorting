@@ -18,6 +18,7 @@ class ConveyorBelt:
         if self._is_running:
             self._logger.warning("Trying to start the conveyor belt while it is already running!")
             return
+        # TODO: Start the conveyor belt
         self._is_running = True
         self._logger.info("Conveyor belt started")
 
@@ -26,6 +27,7 @@ class ConveyorBelt:
         if not self._is_running:
             self._logger.warning("Trying to stop the conveyor belt while it is already stopped!")
             return
+        # TODO: Stop the conveyor belt
         self._is_running = False
         self._logger.info("Conveyor belt stopped")
 

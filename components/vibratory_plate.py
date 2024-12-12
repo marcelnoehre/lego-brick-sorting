@@ -18,6 +18,7 @@ class VibratoryPlate:
         if self._is_running:
             self._logger.warning("Trying to start the vibratory plate while it is already running!")
             return
+        # TODO: Start the vibratory plate
         self._is_running = True
         self._logger.info("Vibratory plate started")
 
@@ -26,5 +27,6 @@ class VibratoryPlate:
         if not self._is_running:
             self._logger.warning("Trying to stop the vibratory plate while it is already stopped!")
             return
+        # TODO: Stop the vibratory plate
         self._is_running = False
         self._logger.info("Vibratory plate stopped")
