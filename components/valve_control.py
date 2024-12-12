@@ -17,7 +17,7 @@ class ValveControl:
         if valve_id < 0 or valve_id > len(self._valves) - 1:
             self._logger.error(f"Invalid valve ID: {valve_id}")
             return
-        if self.valves[valve_id]:
+        if self._valves[valve_id]:
             self._logger.warning(f"Trying to open valve {valve_id} while it is already open!")
             return
         self._valves[valve_id] = True

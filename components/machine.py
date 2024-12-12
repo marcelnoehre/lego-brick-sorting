@@ -17,15 +17,25 @@ class Machine:
         self._valve_control = ValveControl()
         self._conveyor_belt = ConveyorBelt()
         self._color_box_light_barrier = LightBarrier(
-            "Color Box Light Barrier", RASPBERRY_PI_CONFIG["color_box_light_barrier_pin"], RASPBERRY_PI_CONFIG["light_barrier_interval"]
+            "Color Box Light Barrier",
+            RASPBERRY_PI_CONFIG["color_box_light_barrier_pin"],
+            RASPBERRY_PI_CONFIG["light_barrier_interval"],
         )
         self._valve_init_light_barrier = LightBarrier(
-            "Valve Init Light Barrier", RASPBERRY_PI_CONFIG["valve_init_light_barrier_pin"], RASPBERRY_PI_CONFIG["light_barrier_interval"]
+            "Valve Init Light Barrier",
+            RASPBERRY_PI_CONFIG["valve_init_light_barrier_pin"],
+            RASPBERRY_PI_CONFIG["light_barrier_interval"],
         )
         self._color_box_light_barrier.subscribe(self._handle_color_box_light_barrier_event)
         self._valve_init_light_barrier.subscribe(self._handle_valve_init_light_barrier_event)
         if FLAGS["vibratory_plate"]:
             self._vibratory_plate = VibratoryPlate()
+            self._vibratory_plate_light_barrier = LightBarrier(
+                "Vibratory Plate Light Barrier",
+                RASPBERRY_PI_CONFIG["vibratory_plate_light_barrier_pin"],
+                RASPBERRY_PI_CONFIG["light_barrier_interval"],
+            )
+            self._vibratory_plate_light_barrier.subscribe(self._handle_vibratory_plate_light_barrier_event)
         self._logger.info("Machine initialized")
 
     def __del__(self):
@@ -35,7 +45,8 @@ class Machine:
         self._color_box_light_barrier.stop()
         self._valve_init_light_barrier.stop()
         if FLAGS["vibratory_plate"]:
-            self._vibratory_plate.stop()
+            self._vibratory_plate_light_barrier.unsubscribe(self._handle_vibratory_plate_light_barrier_event)
+            self._vibratory_plate_light_barrier.stop()
 
     def _handle_color_box_light_barrier_event(self, value):
         """
@@ -53,6 +64,13 @@ class Machine:
         """
         pass
 
+    def _handle_vibratory_plate_light_barrier_event(self, value):
+        """
+        Handles the vibratory plate light barrier event.
+
+        :param value: The new sensor value (0 for interruption, 1 for light)
+        """
+        pass
 
     def start(self):
         """Starts the machine."""
@@ -60,6 +78,7 @@ class Machine:
         self._valve_init_light_barrier.start()
         self._conveyor_belt.start()
         if FLAGS["vibratory_plate"]:
+            self._vibratory_plate_light_barrier.start()
             self._vibratory_plate.start()
         self._is_running = True
         self._logger.info("Machine started")
@@ -72,6 +91,7 @@ class Machine:
         self._valve_control.closeAllValves()
         self._conveyor_belt.stop()
         if FLAGS["vibratory_plate"]:
+            self._vibratory_plate_light_barrier.stop()
             self._vibratory_plate.stop()
         self._is_running = False
         self._logger.info("Machine stopped")
