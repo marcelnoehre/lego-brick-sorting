@@ -66,8 +66,8 @@ class Machine:
         """
         if value == 0:
             self._conveyor_belt.stop()
-            self._color_box.turnLightOn()
-            color = self._color_box.getColor()
+            self._color_box.turn_light_on()
+            color = self._color_box.get_color()
             self._timer.initialize(BRICK_COLORS[color]["id"], BRICK_COLORS[color]["duration"])
             self._conveyor_belt.start()
 
@@ -95,9 +95,9 @@ class Machine:
 
         :param id: The ID of the valve to toggle
         """
-        self._valve_control.openValve(id)
+        self._valve_control.open_valve(id)
         time.sleep(TIME["valve_open_duration"])
-        self._valve_control.closeValve(id)
+        self._valve_control.close_valve(id)
 
     def start(self):
         """Starts the machine."""
@@ -116,8 +116,8 @@ class Machine:
         """Stops the machine."""
         self._color_box_light_barrier.stop()
         self._valve_init_light_barrier.stop()
-        self._color_box.turnLightOff()
-        self._valve_control.closeAllValves()
+        self._color_box.turn_light_off()
+        self._valve_control.close_all_valves()
         self._conveyor_belt.stop()
         if FLAGS["vibratory_plate"]:
             self._vibratory_plate_light_barrier.stop()

@@ -12,7 +12,7 @@ class ValveControl:
         """Cleans up the valve control component."""
         self.closeAllValves()
 
-    def openValve(self, valve_id):
+    def open_valve(self, valve_id):
         """
         Opens the specified valve.
 
@@ -28,7 +28,7 @@ class ValveControl:
         self._valves[valve_id] = True
         self._logger.info(f"Valve {valve_id} opened")
 
-    def closeValve(self, valve_id):
+    def close_valve(self, valve_id):
         """
         Closes the specified valve.
 
@@ -44,7 +44,7 @@ class ValveControl:
         self._valves[valve_id] = False
         self._logger.info(f"Valve {valve_id} closed")
 
-    def closeAllValves(self):
+    def close_all_valves(self):
         """Closes all valves."""
         for i in range(len(self._valves)):
             if self._valves[i]:

@@ -16,8 +16,8 @@ class ColorSensor:
         self._bus.write_byte_data(COLOR_SENSOR["i2c_address"], COLOR_SENSOR["integration_time"], COLOR_SENSOR["ensure_power"])
         self._logger.info("Color sensor enabled")
     
-    def read_color(self):
-        """Reads the color from the color sensor."""
+    def get_color(self):
+        """Returns the color from the color sensor."""
         red = self._bus.read_byte_data(COLOR_SENSOR["i2c_address"], COLOR_SENSOR["red_channel"])
         green = self._bus.read_byte_data(COLOR_SENSOR["i2c_address"], COLOR_SENSOR["green_channel"])
         blue = self._bus.read_byte_data(COLOR_SENSOR["i2c_address"], COLOR_SENSOR["blue_channel"])
