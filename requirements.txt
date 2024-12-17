@@ -2,3 +2,4 @@ smbus
 smbus2
 RPi.GPIO
 grovepi
+numpy
