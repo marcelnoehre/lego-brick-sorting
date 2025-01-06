@@ -24,7 +24,7 @@ class Logger:
         :param color: The color of the log level
         :param level: The log level of the message
         """
-        if FLAGS["vibratory_flag"]:
+        if FLAGS["debug"]:
             timestamp = f"{LOG_COLORS['green']}{self._current_time()}"
             seperator = f"{LOG_COLORS['white']} | "
             level = f"{LOG_COLORS[color]}{level}"
