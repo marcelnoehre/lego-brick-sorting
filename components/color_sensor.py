@@ -28,7 +28,7 @@ if __name__ == "__main__":
     try:
         color_sensor = ColorSensor()
         while True:
-            red, green, blue = color_sensor.read_color()
+            red, green, blue = color_sensor.get_color()
             print(f"Red: {red}, Green: {green}, Blue: {blue}")
             time.sleep(TIME["tick"] * 2)
     except KeyboardInterrupt:

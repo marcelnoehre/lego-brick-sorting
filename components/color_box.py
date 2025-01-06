@@ -22,7 +22,7 @@ class ColorBox:
     def __del__(self):
         """Cleans up the color box component."""
         if self._light_on:
-            self.turnLightOff()
+            self.turn_light_off()
         GPIO.cleanup()
 
     def turn_light_on(self):

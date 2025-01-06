@@ -75,7 +75,7 @@ class LightBarrier:
 
     def start(self):
         """Starts monitoring the light barrier sensor."""
-        if self.is_running:
+        if self._is_running:
             self._logger.warning("Trying to start monitoring while it is already running!")
             return
         if self.monitoring_thread is not None:
@@ -88,7 +88,7 @@ class LightBarrier:
 
     def stop(self):
         """Stops monitoring the light barrier sensor."""
-        if not self.is_running:
+        if not self._is_running:
             self._logger.warning("Trying to stop monitoring while it is already stopped!")
             return
         if not self.monitoring_thread:

@@ -10,7 +10,7 @@ class ValveControl:
 
     def __del__(self):
         """Cleans up the valve control component."""
-        self.closeAllValves()
+        self.close_all_valves()
 
     def open_valve(self, valve_id):
         """
@@ -48,4 +48,4 @@ class ValveControl:
         """Closes all valves."""
         for i in range(len(self._valves)):
             if self._valves[i]:
-                self.closeValve(i)
+                self.close_valve(i)
