@@ -17,14 +17,13 @@ def print_commands():
     print(f"""{LOG_COLORS["bold_underlined_purple"]}Test Lego Brick Sorting Machine!{LOG_COLORS["reset"]}""")
     print(f"* {LOG_COLORS['blue']}[0]{LOG_COLORS['reset']} Quit testing")
     print(f"* {LOG_COLORS['blue']}[1]{LOG_COLORS['reset']} Run the vibratory plate for 5 seconds")
-    print(f"* {LOG_COLORS['blue']}[2]{LOG_COLORS['reset']} Turn the light on for 5 seconds")
-    print(f"* {LOG_COLORS['blue']}[3]{LOG_COLORS['reset']} Run the conveyor belt for 5 seconds")
-    print(f"* {LOG_COLORS['blue']}[4]{LOG_COLORS['reset']} Activate user defined valve")
-    print(f"* {LOG_COLORS['blue']}[5]{LOG_COLORS['reset']} Get the color of the current brick")
-    print(f"* {LOG_COLORS['blue']}[6]{LOG_COLORS['reset']} Await trigger of user defined light barrier")
-    print(f"* {LOG_COLORS['blue']}[7]{LOG_COLORS['reset']} Run vibratory plate until brick is detected")
-    print(f"* {LOG_COLORS['blue']}[8]{LOG_COLORS['reset']} Run conveyor belt until brick is in color box")
-    print(f"* {LOG_COLORS['blue']}[9]{LOG_COLORS['reset']} Run conveyor belt until brick is sorted")
+    print(f"* {LOG_COLORS['blue']}[2]{LOG_COLORS['reset']} Run the conveyor belt for 5 seconds")
+    print(f"* {LOG_COLORS['blue']}[3]{LOG_COLORS['reset']} Activate user defined valve")
+    print(f"* {LOG_COLORS['blue']}[4]{LOG_COLORS['reset']} Get the color of the current brick")
+    print(f"* {LOG_COLORS['blue']}[5]{LOG_COLORS['reset']} Await trigger of user defined light barrier")
+    print(f"* {LOG_COLORS['blue']}[6]{LOG_COLORS['reset']} Run vibratory plate until brick is detected")
+    print(f"* {LOG_COLORS['blue']}[7]{LOG_COLORS['reset']} Run conveyor belt until brick is in color box")
+    print(f"* {LOG_COLORS['blue']}[8]{LOG_COLORS['reset']} Run conveyor belt until brick is sorted")
 
 
 def user_input():
@@ -38,27 +37,24 @@ def user_input():
         logger.info("Running the vibratory plate for 5 seconds")
         run_vibratory_plate()
     elif command == "2":
-        logger.info("Turning the light on for 5 seconds")
-        turn_light_on()
-    elif command == "3":
         logger.info("Running the conveyor belt for 5 seconds")
         run_conveyor_belt()
-    elif command == "4":
+    elif command == "3":
         logger.info("Activating user defined valve")
         activate_valve(logger)
-    elif command == "5":
+    elif command == "4":
         logger.info("Getting the color of the current brick")
         get_color(logger)
-    elif command == "6":
+    elif command == "5":
         logger.info("Awaiting trigger of user defined light barrier")
         user_defined_light_barrier(logger)
-    elif command == "7":
+    elif command == "6":
         logger.info("Running vibratory plate until brick is detected")
         run_vibratory_plate_until_brick_detected()
-    elif command == "8":
+    elif command == "7":
         logger.info("Running conveyor belt until brick is in color box")
         run_conveyor_belt_until_brick_in_color_box()
-    elif command == "9":
+    elif command == "8":
         logger.info("Sort a user defined brick color")
         sort_brick(logger)
     else:
@@ -73,14 +69,6 @@ def run_vibratory_plate():
     vibratory_plate.run()
     time.sleep(5)
     vibratory_plate.stop()
-
-
-def turn_light_on():
-    """Turns the light on for 5 seconds."""
-    color_box = ColorBox()
-    color_box.turn_light_on()
-    time.sleep(5)
-    color_box.turn_light_off()
 
 
 def run_conveyor_belt():
@@ -106,9 +94,7 @@ def activate_valve(logger):
 def get_color(logger):
     """Gets the color of the current brick."""
     color_box = ColorBox()
-    color_box.turn_light_on()
     color = color_box.get_color()
-    color_box.turn_light_off()
     logger.info(f"The color of the current brick is {color}")
 
 

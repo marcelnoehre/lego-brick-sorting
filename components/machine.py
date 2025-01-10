@@ -66,7 +66,6 @@ class Machine:
         """
         if value == 0:
             self._conveyor_belt.stop()
-            self._color_box.turn_light_on()
             color = self._color_box.get_color()
             self._timer.initialize(BRICK_COLORS[color]["id"], BRICK_COLORS[color]["duration"])
             self._conveyor_belt.start()
@@ -116,7 +115,6 @@ class Machine:
         """Stops the machine."""
         self._color_box_light_barrier.stop()
         self._valve_init_light_barrier.stop()
-        self._color_box.turn_light_off()
         self._valve_control.close_all_valves()
         self._conveyor_belt.stop()
         if FLAGS["vibratory_plate"]:
