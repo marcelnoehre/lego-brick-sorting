@@ -23,15 +23,18 @@ class CameraModule:
     def get_color(self):
         """Returns the color detected by the camera."""
         frame = self._pi_cam.capture_array()
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
         detected_colors = {}
         for color, (lower, upper) in CAMERA_MODULE["color_ranges"].items():
             lower = np.array(lower, dtype=np.uint8)
             upper = np.array(upper, dtype=np.uint8)
             mask = cv2.inRange(hsv, lower, upper)
             count = cv2.countNonZero(mask)
-            if count > 0 and color != "filter":
+            if count > 0:
                 detected_colors[color] = count
+        if "filter" in detected_colors:
+            del detected_colors["filter"]
         result = max(detected_colors, key=detected_colors.get)
         self._logger.info("Color detected: " + result)
         return result
