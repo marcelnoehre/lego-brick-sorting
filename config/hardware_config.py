@@ -21,7 +21,7 @@ COLOR_SENSOR = {
 }
 
 CAMERA_MODULE = {
-    "resolution": (640, 480),
+    "resolution": (480, 480),
     "color_ranges": {
         "red": [(0, 100, 100), (10, 255, 255)],
         "orange": [(11, 100, 100), (25, 255, 255)],
