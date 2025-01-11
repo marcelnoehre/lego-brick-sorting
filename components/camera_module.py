@@ -30,7 +30,7 @@ class CameraModule:
             upper = np.array(upper, dtype=np.uint8)
             mask = cv2.inRange(hsv, lower, upper)
             count = cv2.countNonZero(mask)
-            if count > 0:
+            if count > 0 and color != "filter":
                 detected_colors[color] = count
         result = max(detected_colors, key=detected_colors.get)
         self._logger.info("Color detected: " + result)
