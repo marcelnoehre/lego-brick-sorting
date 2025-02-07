@@ -1,70 +1,53 @@
 import cv2
 import numpy as np
+from picamera2 import Picamera2
 
-COLOR_RANGES = {
-    "red": [(0, 120, 70), (10, 255, 255)],
-    "yellow": [(20, 100, 100), (30, 255, 255)],
-    "green": [(40, 40, 40), (80, 255, 255)],
-    "blue": [(90, 50, 50), (130, 255, 255)]
+# Initialize the PiCamera
+picam2 = Picamera2()
+picam2.configure(picam2.create_preview_configuration(main={'format': 'XRGB8888', 'size': (480, 480)}))
+picam2.start()
+
+def detect_color(frame, lower_bound, upper_bound, color_name):
+    # Convert frame to HSV color space
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    
+    # Create a mask for the color
+    mask = cv2.inRange(hsv, lower_bound, upper_bound)
+    
+    # Find contours in the mask
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    
+    for contour in contours:
+        if cv2.contourArea(contour) > 500:  # Filter small contours
+            x, y, w, h = cv2.boundingRect(contour)
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            cv2.putText(frame, color_name, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+    
+    return frame
+
+# Define color ranges (adjust as needed for LEGO bricks)
+color_ranges = {
+    "Red": (np.array([0, 120, 70]), np.array([10, 255, 255])),
+    "Blue": (np.array([100, 150, 70]), np.array([140, 255, 255])),
+    "Green": (np.array([40, 70, 70]), np.array([80, 255, 255]))
 }
 
-inside_img = False
-
-def detect_lego_brick(frame):
-    global inside_img
-
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-    lower_black = np.array([0, 0, 0])
-    upper_black = np.array([180, 255, 50])
-    mask_black = cv2.inRange(hsv, lower_black, upper_black)
-    mask_black = cv2.bitwise_not(mask_black)
-
-    contours, _ = cv2.findContours(mask_black, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    if contours:
-        if not inside_img:
-            print("Brick recognized!")
-            inside_img = True
-
-        largest_contour = max(contours, key=cv2.contourArea)
-        
-        x, y, w, h = cv2.boundingRect(largest_contour)
-        roi = hsv[y:y+h, x:x+w]
-
-        avg_color = np.mean(roi.reshape(-1, 3), axis=0)
-
-        detected_color = "none"
-        for color, (lower, upper) in COLOR_RANGES.items():
-            if all(lower[i] <= avg_color[i] <= upper[i] for i in range(3)):
-                detected_color = color
-                break
-
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        cv2.putText(frame, detected_color, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
-        
-        return frame, detected_color
-
-    else:
-        if inside_img:
-            print("brick left the frame")
-            inside_img = False
-    
-    return frame, None
-
-cap = cv2.VideoCapture(0)
-
 while True:
-    ret, frame = cap.read()
-    if not ret:
-        break
-
-    processed_frame, color = detect_lego_brick(frame)
-
-    cv2.imshow("Lego Color Cam", processed_frame)
-
+    # Capture frame from PiCamera
+    frame = picam2.capture_array()
+    frame = cv2.cvtColor(frame, cv2.COLOR_XRGB2BGR)
+    
+    # Detect colors
+    for color, (lower, upper) in color_ranges.items():
+        frame = detect_color(frame, lower, upper, color)
+    
+    # Show output
+    cv2.imshow("Color Detection", frame)
+    
+    # Exit on 'q' key
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-cap.release()
+# Cleanup
 cv2.destroyAllWindows()
+picam2.stop()
