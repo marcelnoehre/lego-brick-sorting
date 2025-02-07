@@ -1,7 +1,5 @@
 RASPBERRY_PI_CONFIG = {
-    "color_box_light_barrier_pin": -1,
-    "valve_init_light_barrier_pin": -1,
-    "vibratory_plate_light_barrier_pin": -1,
+    "light_barrier_pin": -1,
 }
 
 TIME = {
@@ -10,20 +8,9 @@ TIME = {
     "valve_open_duration": 0.25,
 }
 
-COLOR_SENSOR = {
-    "i2c_bus": 1,
-    "i2c_address": 0x39,
-    "integration_time": 0x00,
-    "red_channel": 0x08,
-    "green_channel": 0x09,
-    "blue_channel": 0x0A,
-    "ensure_power": 0x03
-}
-
 CAMERA_MODULE = {
     "resolution": (480, 480),
     "color_ranges": {
-        "filter": [(0, 0, 63), (53, 255, 243)],
         "red": [(0, 100, 100), (10, 255, 255)],
         "orange": [(11, 100, 100), (25, 255, 255)],
         "yellow": [(26, 100, 100), (35, 255, 255)],
