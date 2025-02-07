@@ -19,8 +19,7 @@ def print_commands():
     print(f"* {LOG_COLORS['blue']}[4]{LOG_COLORS['reset']} Get the color of the current brick")
     print(f"* {LOG_COLORS['blue']}[5]{LOG_COLORS['reset']} Await trigger of user defined light barrier")
     print(f"* {LOG_COLORS['blue']}[6]{LOG_COLORS['reset']} Run vibratory plate until brick is detected")
-    print(f"* {LOG_COLORS['blue']}[7]{LOG_COLORS['reset']} Run conveyor belt until brick is in color box")
-    print(f"* {LOG_COLORS['blue']}[8]{LOG_COLORS['reset']} Run conveyor belt until brick is sorted")
+    print(f"* {LOG_COLORS['blue']}[7]{LOG_COLORS['reset']} Run conveyor belt until brick is sorted")
 
 
 def user_input():
@@ -48,8 +47,8 @@ def user_input():
     elif command == "6":
         logger.info("Running vibratory plate until brick is detected")
         run_vibratory_plate_until_brick_detected()
-    elif command == "8":
-        logger.info("Sort a user defined brick color")
+    elif command == "7":
+        logger.info("Sort a brick")
         sort_brick(logger)
     else:
         logger.warning("Invalid command! Please use one of the following commands:")
