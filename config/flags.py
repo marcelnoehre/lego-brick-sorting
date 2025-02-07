@@ -1,4 +1,4 @@
 FLAGS = {
     "debug": True, 
-    "vibratory_plate_flag": False
+    "vibratory_plate": False
 }

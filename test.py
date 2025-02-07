@@ -4,7 +4,6 @@ from config.log_colors import LOG_COLORS
 from config.hardware_config import RASPBERRY_PI_CONFIG, TIME
 from config.brick_colors import BRICK_COLORS
 from services.logger import Logger
-from components.color_box import ColorBox
 from components.valve_control import ValveControl
 from components.conveyor_belt import ConveyorBelt
 from components.vibratory_plate import VibratoryPlate
