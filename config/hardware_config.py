@@ -29,3 +29,22 @@ CAMERA_MODULE = {
         "light_yellow": [(26, 50, 200), (35, 255, 255)]
     }
 }
+
+VALVES = {
+    1: { "pin": 3, "duration": 10 },
+    2: { "pin": 5, "duration": 20 },
+    3: { "pin": 7, "duration": 30 },
+    4: { "pin": 8, "duration": 40 },
+    5: { "pin": 10, "duration": 50 },
+    6: { "pin": 12, "duration": 60 },
+    7: { "pin": 11, "duration": 70 },
+    8: { "pin": 13, "duration": 80 },
+    9: { "pin": 15, "duration": 90 },
+    10: { "pin": 16, "duration": 100 },
+    11: { "pin": 18, "duration": 110 },
+    12: { "pin": 19, "duration": 120 },
+    13: { "pin": 21, "duration": 130 },
+    14: { "pin": 22, "duration": 140 },
+    15: { "pin": 23, "duration": 150 },
+    16: { "pin": 24, "duration": 160 }
+}
