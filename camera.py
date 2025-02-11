@@ -32,12 +32,8 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
                 largest_area = cv2.contourArea(contour)
                 largest_contour = contour
 
-    if largest_contour is not None:
-        x, y, w, h = cv2.boundingRect(largest_contour)
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)  # Green for largest brick
-        cv2.putText(frame, color_name, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
-    
-    return frame
+    # Return the largest contour and its area
+    return largest_contour, largest_area
 
 color_ranges = {
     "Red": (np.array([0, 120, 70]), np.array([10, 255, 255])),
@@ -54,18 +50,50 @@ color_ranges = {
     "Grey": (np.array([0, 0, 70]), np.array([180, 20, 200]))
 }
 
+# This will track which color to detect
+detected_color = None
+
 while True:
     # Capture frame from PiCamera
     frame = picam2.capture_array()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    # Track the largest contour for each color, one color at a time
+    color_found = False
+
+    # Try detecting each color one by one, skipping if one is already detected
     for color, (lower, upper) in color_ranges.items():
-        frame = detect_color(frame, lower, upper, color)
-    
+        if detected_color is None:  # Check if any color has been detected yet
+            contour, area = detect_color(frame, lower, upper, color)
+            if contour is not None:
+                # If a contour is detected for this color, draw the bounding box
+                x, y, w, h = cv2.boundingRect(contour)
+                color_map = {
+                    "Red": (0, 0, 255),
+                    "Blue": (255, 0, 0),
+                    "Green": (0, 255, 0),
+                    "Yellow": (0, 255, 255),
+                    "Orange": (0, 165, 255),
+                    "Light Green": (144, 238, 144),
+                    "Light Blue": (173, 216, 230),
+                    "White": (255, 255, 255),
+                    "Black": (0, 0, 0),
+                    "Brown": (42, 42, 165),
+                    "Beige": (245, 245, 220),
+                    "Grey": (128, 128, 128)
+                }
+                cv2.rectangle(frame, (x, y), (x + w, y + h), color_map[color], 2)
+                cv2.putText(frame, color, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+                detected_color = color  # Mark this color as detected
+                color_found = True
+                break  # Exit the loop after detecting a color
+
+    # If no color found, continue trying to detect a new color in the next frame
+    if not color_found:
+        detected_color = None  # Reset for next frame
+
     # Show output
     cv2.imshow("Color Detection", frame)
-    
+
     # Exit on 'q' key
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
