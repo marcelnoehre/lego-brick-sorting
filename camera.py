@@ -22,16 +22,20 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
     # Find contours in the mask
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    # Sort contours by area in descending order and pick the largest one
-    contours = sorted(contours, key=cv2.contourArea, reverse=True)
-    
-    # If there's at least one contour, proceed to process the largest one
-    if contours:
-        largest_contour = contours[0]
-        if cv2.contourArea(largest_contour) > 1000:  # Minimum area threshold
-            x, y, w, h = cv2.boundingRect(largest_contour)
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)  # Green for largest brick
-            cv2.putText(frame, color_name, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+    largest_contour = None
+    largest_area = 0
+
+    # Find the largest contour that's above a certain size threshold
+    for contour in contours:
+        if cv2.contourArea(contour) > 1000:  # Minimum area threshold
+            if cv2.contourArea(contour) > largest_area:
+                largest_area = cv2.contourArea(contour)
+                largest_contour = contour
+
+    if largest_contour is not None:
+        x, y, w, h = cv2.boundingRect(largest_contour)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)  # Green for largest brick
+        cv2.putText(frame, color_name, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
     
     return frame
 
@@ -54,8 +58,8 @@ while True:
     # Capture frame from PiCamera
     frame = picam2.capture_array()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    
-    # Detect colors
+
+    # Track the largest contour for each color, one color at a time
     for color, (lower, upper) in color_ranges.items():
         frame = detect_color(frame, lower, upper, color)
     
