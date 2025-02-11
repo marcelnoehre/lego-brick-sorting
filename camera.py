@@ -4,7 +4,7 @@ from picamera2 import Picamera2
 
 # Initialize the PiCamera
 picam2 = Picamera2()
-picam2.configure(picam2.create_preview_configuration(main={'size': (480, 480)}))
+picam2.configure(picam2.create_preview_configuration(main={'size': (800, 800)}))
 picam2.start()
 
 def detect_color(frame, lower_bound, upper_bound, color_name):
@@ -14,6 +14,11 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
     # Create a mask for the color
     mask = cv2.inRange(hsv, lower_bound, upper_bound)
     
+    # Apply morphological transformations (optional) to reduce noise
+    kernel = np.ones((5, 5), np.uint8)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+
     # Find contours in the mask
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -36,11 +41,11 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
     offset = 0  # Labels
     
     for contour in contours:
-        if cv2.contourArea(contour) > 500: # Filter small contours
+        if cv2.contourArea(contour) > 1000:  # Increased contour area threshold
             x, y, w, h = cv2.boundingRect(contour)
             cv2.rectangle(frame, (x, y), (x + w, y + h), color_map[color_name], 2)
             cv2.putText(frame, color_name, (x, y - 10 - offset), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
-            offset += 15 # Increase offset for next label
+            offset += 15  # Increase offset for next label
     
     return frame
 
