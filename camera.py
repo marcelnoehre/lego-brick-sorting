@@ -22,30 +22,16 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
     # Find contours in the mask
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    # Bounding Boxes
-    color_map = {
-        "Red": (0, 0, 255),
-        "Blue": (255, 0, 0),
-        "Green": (0, 255, 0),
-        "Yellow": (0, 255, 255),
-        "Orange": (0, 165, 255),
-        "Light Green": (144, 238, 144),
-        "Light Blue": (173, 216, 230),
-        "White": (255, 255, 255),
-        "Black": (0, 0, 0),
-        "Brown": (42, 42, 165),
-        "Beige": (245, 245, 220),
-        "Grey": (128, 128, 128)
-    }
+    # Sort contours by area in descending order and pick the largest one
+    contours = sorted(contours, key=cv2.contourArea, reverse=True)
     
-    offset = 0  # Labels
-    
-    for contour in contours:
-        if cv2.contourArea(contour) > 1000:  # Increased contour area threshold
-            x, y, w, h = cv2.boundingRect(contour)
-            cv2.rectangle(frame, (x, y), (x + w, y + h), color_map[color_name], 2)
-            cv2.putText(frame, color_name, (x, y - 10 - offset), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
-            offset += 15  # Increase offset for next label
+    # If there's at least one contour, proceed to process the largest one
+    if contours:
+        largest_contour = contours[0]
+        if cv2.contourArea(largest_contour) > 1000:  # Minimum area threshold
+            x, y, w, h = cv2.boundingRect(largest_contour)
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)  # Green for largest brick
+            cv2.putText(frame, color_name, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
     
     return frame
 
