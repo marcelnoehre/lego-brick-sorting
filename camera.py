@@ -4,21 +4,16 @@ from picamera2 import Picamera2
 
 # Initialize the PiCamera
 picam2 = Picamera2()
-picam2.configure(picam2.create_preview_configuration(main={'size': (800, 800)}))
+picam2.configure(picam2.create_preview_configuration(main={'size': (800, 800)}))  # Reduce the frame size
 picam2.start()
 
-def detect_color(frame, lower_bound, upper_bound, color_name):
+def detect_color(frame, lower_bound, upper_bound):
     # Convert frame to HSV color space
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     
     # Create a mask for the color
     mask = cv2.inRange(hsv, lower_bound, upper_bound)
     
-    # Apply morphological transformations (optional) to reduce noise
-    kernel = np.ones((5, 5), np.uint8)
-    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
-    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
-
     # Find contours in the mask
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -58,12 +53,13 @@ while True:
     frame = picam2.capture_array()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
+    # Flag to stop further detections once a color is found
     color_found = False
 
     # Try detecting each color one by one, skipping if one is already detected
     for color, (lower, upper) in color_ranges.items():
         if detected_color is None:  # Check if any color has been detected yet
-            contour, area = detect_color(frame, lower, upper, color)
+            contour, area = detect_color(frame, lower, upper)
             if contour is not None:
                 # If a contour is detected for this color, draw the bounding box
                 x, y, w, h = cv2.boundingRect(contour)
