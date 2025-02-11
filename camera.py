@@ -21,7 +21,16 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
     color_map = {
         "Red": (0, 0, 255),
         "Blue": (255, 0, 0),
-        "Green": (0, 255, 0)
+        "Green": (0, 255, 0),
+        "Yellow": (0, 255, 255),
+        "Orange": (0, 165, 255),
+        "Light Green": (144, 238, 144),
+        "Light Blue": (173, 216, 230),
+        "White": (255, 255, 255),
+        "Black": (0, 0, 0),
+        "Brown": (42, 42, 165),
+        "Beige": (245, 245, 220),
+        "Grey": (128, 128, 128)
     }
     
     offset = 0  # Labels
@@ -30,7 +39,7 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
         if cv2.contourArea(contour) > 500: # Filter small contours
             x, y, w, h = cv2.boundingRect(contour)
             cv2.rectangle(frame, (x, y), (x + w, y + h), color_map[color_name], 2)
-            cv2.putText(frame, color_name, (x, y - 10 - offset), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color_map[color_name], 2)
+            cv2.putText(frame, color_name, (x, y - 10 - offset), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
             offset += 15 # Increase offset for next label
     
     return frame
@@ -38,7 +47,16 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
 color_ranges = {
     "Red": (np.array([0, 120, 70]), np.array([10, 255, 255])),
     "Blue": (np.array([100, 150, 70]), np.array([140, 255, 255])),
-    "Green": (np.array([40, 70, 70]), np.array([80, 255, 255]))
+    "Green": (np.array([40, 70, 70]), np.array([80, 255, 255])),
+    "Yellow": (np.array([20, 100, 100]), np.array([30, 255, 255])),
+    "Orange": (np.array([10, 100, 100]), np.array([20, 255, 255])),
+    "Light Green": (np.array([35, 50, 70]), np.array([55, 255, 255])),
+    "Light Blue": (np.array([90, 50, 70]), np.array([110, 255, 255])),
+    "White": (np.array([0, 0, 200]), np.array([180, 55, 255])),
+    "Black": (np.array([0, 0, 0]), np.array([180, 255, 50])),
+    "Brown": (np.array([10, 50, 20]), np.array([30, 255, 120])),
+    "Beige": (np.array([15, 20, 150]), np.array([25, 80, 255])),
+    "Grey": (np.array([0, 0, 70]), np.array([180, 20, 200]))
 }
 
 while True:
