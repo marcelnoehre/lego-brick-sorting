@@ -27,12 +27,13 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
         "Light Green": (144, 238, 144),
         "Light Blue": (173, 216, 230),
         "White": (255, 255, 255),
-        "Black": (0, 0, 0),
         "Brown": (42, 42, 165),
         "Beige": (245, 245, 220),
-        "Grey": (128, 128, 128)
+        "Grey": (128, 128, 128),
+        "Purple": (128, 0, 128),
+        "Pink": (255, 105, 180)
     }
-    
+
     offset = 0  # Labels
     
     for contour in contours:
@@ -46,17 +47,18 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
 
 color_ranges = {
     "Red": (np.array([0, 120, 70]), np.array([10, 255, 255])),
-    "Blue": (np.array([100, 150, 70]), np.array([140, 255, 255])),
+    "Blue": (np.array([100, 150, 70]), np.array([130, 255, 255])),
     "Green": (np.array([40, 70, 70]), np.array([80, 255, 255])),
-    "Yellow": (np.array([20, 100, 100]), np.array([30, 255, 255])),
-    "Orange": (np.array([10, 100, 100]), np.array([20, 255, 255])),
-    "Light Green": (np.array([35, 50, 70]), np.array([55, 255, 255])),
-    "Light Blue": (np.array([90, 50, 70]), np.array([110, 255, 255])),
-    "White": (np.array([0, 0, 200]), np.array([180, 55, 255])),
-    "Black": (np.array([0, 0, 0]), np.array([180, 255, 50])),
-    "Brown": (np.array([10, 50, 20]), np.array([30, 255, 120])),
-    "Beige": (np.array([15, 20, 150]), np.array([25, 80, 255])),
-    "Grey": (np.array([0, 0, 70]), np.array([180, 20, 200]))
+    "Yellow": (np.array([22, 150, 100]), np.array([30, 255, 255])),
+    "Orange": (np.array([10, 150, 100]), np.array([20, 255, 255])),
+    "Light Green": (np.array([35, 50, 70]), np.array([50, 255, 255])),
+    "Light Blue": (np.array([90, 100, 100]), np.array([100, 255, 255])),
+    "White": (np.array([0, 0, 200]), np.array([180, 50, 255])),
+    "Brown": (np.array([10, 50, 20]), np.array([18, 255, 100])),
+    "Beige": (np.array([12, 40, 150]), np.array([20, 100, 255])),
+    "Grey": (np.array([0, 0, 50]), np.array([180, 10, 180])),
+    "Purple": (np.array([140, 100, 50]), np.array([160, 255, 255])),
+    "Pink": (np.array([160, 100, 100]), np.array([175, 255, 255]))
 }
 
 while True:
