@@ -35,15 +35,16 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
     }
 
     offset = 0  # Labels
-    
-    for contour in contours:
-        if cv2.contourArea(contour) > 1000: # Filter small contours
-            x, y, w, h = cv2.boundingRect(contour)
-            cv2.rectangle(frame, (x, y), (x + w, y + h), color_map[color_name], 2)
-            cv2.putText(frame, color_name, (x, y - 10 - offset), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
-            offset += 15
-    
-    return frame
+
+    contours = sorted(contours, key=cv2.contourArea, reverse=True)
+    if cv2.contourArea(contours[:1]) > 1000: # Filter small contour
+        x, y, w, h = cv2.boundingRect(contours[:1])
+        cv2.rectangle(frame, (x, y), (x + w, y + h), color_map[color_name], 2)
+        cv2.putText(frame, color_name, (x, y - 10 - offset), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+        offset += 15
+        return frame, color_name
+    else:
+        return frame, None
 
 color_ranges = {
     "Red": (np.array([0, 120, 70]), np.array([10, 255, 255])),
@@ -61,14 +62,24 @@ color_ranges = {
     "Pink": (np.array([160, 100, 100]), np.array([175, 255, 255]))
 }
 
+detected_colors = []
+
 while True:
     # Capture frame from PiCamera
     frame = picam2.capture_array()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     
     # Detect colors
+    current_colors = []
     for color, (lower, upper) in color_ranges.items():
-        frame = detect_color(frame, lower, upper, color)
+        frame, color_name = detect_color(frame, lower, upper, color)
+        if color_name:
+            current_colors.append(color_name)
+    
+    for color in detected_colors:
+        if color not in current_colors:
+            print(f"{color} left the frame")
+    detected_colors = current_colors
     
     # Show output
     cv2.imshow("Color Detection", frame)
