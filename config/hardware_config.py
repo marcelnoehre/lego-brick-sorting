@@ -1,7 +1,3 @@
-RASPBERRY_PI_CONFIG = {
-    "light_barrier_pin": -1,
-}
-
 TIME = {
     "tick": 0.1,
     "light_barrier_interval": 0.1,
@@ -36,8 +32,8 @@ VALVES = {
     3: { "pin": 7, "duration": 30 },
     4: { "pin": 8, "duration": 40 },
     5: { "pin": 10, "duration": 50 },
-    6: { "pin": 12, "duration": 60 },
-    7: { "pin": 11, "duration": 70 },
+    6: { "pin": 11, "duration": 60 },
+    7: { "pin": 12, "duration": 70 },
     8: { "pin": 13, "duration": 80 },
     9: { "pin": 15, "duration": 90 },
     10: { "pin": 16, "duration": 100 },
@@ -47,4 +43,12 @@ VALVES = {
     14: { "pin": 22, "duration": 140 },
     15: { "pin": 23, "duration": 150 },
     16: { "pin": 24, "duration": 160 }
+}
+
+VIBRATORY_PLATE = {
+    "light_barrier_pin": 26,
+    "motor_a_1": 32,
+    "motor_a_2": 36,
+    "motor_b_1": 38,
+    "motor_b_2": 40
 }
