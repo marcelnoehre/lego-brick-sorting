@@ -1,24 +1,32 @@
+import RPi.GPIO as GPIO
 from services.logger import Logger
-
+from config.hardware_config import VIBRATORY_PLATE
 
 class VibratoryPlate:
     def __init__(self):
         """Initializes the vibratory plate component."""
         self._logger = Logger("Vibratory Plate")
         self._is_running = False
+        GPIO.setmode(GPIO.BCM)
+        for motor in VIBRATORY_PLATE.values():
+            for pin in motor.values():
+                GPIO.setup(VIBRATORY_PLATE.get(pin), GPIO.OUT)
+                GPIO.output(VIBRATORY_PLATE.get(pin), GPIO.LOW)
         self._logger.info("Vibratory plate initialized")
 
     def __del__(self):
         """Cleans up the vibratory plate component."""
         if self._is_running:
             self.stop()
+        GPIO.cleanup()
 
     def start(self):
         """Starts the vibratory plate."""
         if self._is_running:
             self._logger.warning("Trying to start the vibratory plate while it is already running!")
             return
-        # TODO: Start the vibratory plate
+        GPIO.output(VIBRATORY_PLATE.get("motor_a").get("in_1"), GPIO.HIGH)
+        GPIO.output(VIBRATORY_PLATE.get("motor_b").get("in_1"), GPIO.HIGH)
         self._is_running = True
         self._logger.info("Vibratory plate started")
 
@@ -27,6 +35,7 @@ class VibratoryPlate:
         if not self._is_running:
             self._logger.warning("Trying to stop the vibratory plate while it is already stopped!")
             return
-        # TODO: Stop the vibratory plate
+        GPIO.output(VIBRATORY_PLATE.get("motor_a").get("in_1"), GPIO.LOW)
+        GPIO.output(VIBRATORY_PLATE.get("motor_b").get("in_1"), GPIO.LOW)
         self._is_running = False
         self._logger.info("Vibratory plate stopped")

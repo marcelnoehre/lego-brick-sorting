@@ -45,10 +45,17 @@ VALVES = {
     16: { "pin": 24, "duration": 160 }
 }
 
+LIGHT_BARRIER = {
+    "pin": 26
+}
+
 VIBRATORY_PLATE = {
-    "light_barrier_pin": 26,
-    "motor_a_1": 32,
-    "motor_a_2": 36,
-    "motor_b_1": 38,
-    "motor_b_2": 40
+    "motor_a": {
+        "in_1": 32,
+        "in_2": 36
+    },
+    "motor_b": {
+        "in_1": 38,
+        "in_2": 40
+    }
 }
