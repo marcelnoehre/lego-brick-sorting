@@ -1,9 +1,3 @@
-TIME = {
-    "tick": 0.1,
-    "light_barrier_interval": 0.1,
-    "valve_open_duration": 0.25,
-}
-
 CAMERA_MODULE = {
     "resolution": (480, 480),
     "color_ranges": {
@@ -27,6 +21,7 @@ CAMERA_MODULE = {
 }
 
 VALVES = {
+    "open_duration": 0.25,
     1: { "pin": 3, "duration": 10 },
     2: { "pin": 5, "duration": 20 },
     3: { "pin": 7, "duration": 30 },
@@ -46,7 +41,8 @@ VALVES = {
 }
 
 LIGHT_BARRIER = {
-    "pin": 26
+    "pin": 26,
+    "bounce_time": 200
 }
 
 VIBRATORY_PLATE = {
