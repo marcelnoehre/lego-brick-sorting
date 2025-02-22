@@ -8,6 +8,23 @@ picam2 = Picamera2()
 picam2.configure(picam2.create_preview_configuration(main={'size': (400, 400)}))
 picam2.start()
 
+# Bounding Boxes
+color_map = {
+    "Red": (0, 0, 255),
+    "Blue": (255, 0, 0),
+    "Green": (0, 255, 0),
+    "Yellow": (0, 255, 255),
+    "Orange": (0, 165, 255),
+    "Light Green": (144, 238, 144),
+    "Light Blue": (173, 216, 230),
+    "White": (255, 255, 255),
+    "Brown": (42, 42, 165),
+    "Beige": (245, 245, 220),
+    "Grey": (128, 128, 128),
+    "Purple": (128, 0, 128),
+    "Pink": (255, 105, 180)
+}
+
 def detect_color(frame, lower_bound, upper_bound, color_name):
     # Convert frame to HSV color space
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -17,23 +34,6 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
     
     # Find contours in the mask
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    # Bounding Boxes
-    color_map = {
-        "Red": (0, 0, 255),
-        "Blue": (255, 0, 0),
-        "Green": (0, 255, 0),
-        "Yellow": (0, 255, 255),
-        "Orange": (0, 165, 255),
-        "Light Green": (144, 238, 144),
-        "Light Blue": (173, 216, 230),
-        "White": (255, 255, 255),
-        "Brown": (42, 42, 165),
-        "Beige": (245, 245, 220),
-        "Grey": (128, 128, 128),
-        "Purple": (128, 0, 128),
-        "Pink": (255, 105, 180)
-    }
 
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
     if len (contours) > 0 and cv2.contourArea(contours[0]) > 1000: # Filter small contour
@@ -87,8 +87,7 @@ while True:
         timer = time.time()
 
     if badge and time.time() - timer < 1:
-        cv2.rectangle(frame, (250, 10), (390, 50), (50, 50, 50), -1)
-        cv2.putText(frame, badge, (260, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+        cv2.rectangle(frame, (380, 0), (400, 20), color_map[detected_color], -1)
     else:
         badge = None
     
