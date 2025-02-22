@@ -1,6 +1,5 @@
 import cv2
 import time
-import numpy as np
 import threading
 from picamera2 import Picamera2
 from services.logger import Logger
@@ -16,7 +15,6 @@ class ColorBox:
         self._thread = None
         self._stop_event = threading.Event()
         self.detected_color = None
-        self.badge_text = None
         self.badge_color = None
         self.badge_timer = 0
         self._logger.info("Color box initialized")
@@ -85,23 +83,24 @@ class ColorBox:
             current_colors = current_colors if len(current_colors) > 0 else [{"color": None, "size": 0}]
 
             if self.detected_color is not None and current_colors[0]["color"] != self.detected_color:
-                self.callback(self._get_valve_id(self.detected_color))
-                self.badge_text = f"{self.detected_color} left the frame"
+                threading.Thread(target=self._execute_callback, args=(self.detected_color)).start()
+                self._logger.info(f"{self.detected_color} left the frame")
                 self.badge_color = self.detected_color
                 self.badge_timer = time.time()
 
-            if self.badge_color and self.badge_text and time.time() - self.badge_timer < 1:
+            if self.badge_color and time.time() - self.badge_timer < 1:
                 cv2.rectangle(frame, CAMERA_MODULE["badge"]["top_left"], CAMERA_MODULE["badge"]["bottom_right"], CAMERA_MODULE["color_map"][self.badge_color], -1)
             else:
-                self.badge_text = None
                 self.badge_color = None
 
             self.detected_color = current_colors[0]["color"]
             cv2.imshow("Color Box", frame)
             cv2.waitKey(1)
 
-    def _get_valve_id(self, color):
+    def _execute_callback(self, color):
+        """Executes the callback function."""
         for id, valve in VALVES["valves"].items():
             if valve["color"] == color:
-                return id
-        return None
+                time.sleep(valve["duration"])
+                self.callback(id)
+                break
