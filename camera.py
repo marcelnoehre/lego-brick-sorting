@@ -1,4 +1,5 @@
 import cv2
+import time
 import numpy as np
 from picamera2 import Picamera2
 
@@ -60,6 +61,8 @@ color_ranges = {
 }
 
 detected_color = None
+badge = None
+timer = 0
 
 while True:
     # Capture frame from PiCamera
@@ -80,7 +83,14 @@ while True:
     current_colors = current_colors if len(current_colors) > 0 else [{"color": None, "size": 0}]
 
     if detected_color is not None and current_colors[0]["color"] != detected_color:
-        print(detected_color, "left the frame")
+        badge = f"{detected_color} left the frame"
+        timer = time.time()
+
+    if badge and time.time() - timer < 1:
+        cv2.rectangle(frame, (250, 10), (390, 50), (50, 50, 50), -1)
+        cv2.putText(frame, badge, (260, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+    else:
+        badge = None
     
     detected_color = current_colors[0]["color"]
     
