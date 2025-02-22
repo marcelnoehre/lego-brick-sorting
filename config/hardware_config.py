@@ -33,29 +33,32 @@ CAMERA_MODULE = {
         "brown": (42, 42, 165),
         "beige": (245, 245, 220),
         "grey": (128, 128, 128),
-        "pruple": (128, 0, 128),
+        "purple": (128, 0, 128),
         "pink": (255, 105, 180)
     }
 }
 
 VALVES = {
     "open_duration": 0.25,
-    1: { "pin": 3, "duration": 10 },
-    2: { "pin": 5, "duration": 20 },
-    3: { "pin": 7, "duration": 30 },
-    4: { "pin": 8, "duration": 40 },
-    5: { "pin": 10, "duration": 50 },
-    6: { "pin": 11, "duration": 60 },
-    7: { "pin": 12, "duration": 70 },
-    8: { "pin": 13, "duration": 80 },
-    9: { "pin": 15, "duration": 90 },
-    10: { "pin": 16, "duration": 100 },
-    11: { "pin": 18, "duration": 110 },
-    12: { "pin": 19, "duration": 120 },
-    13: { "pin": 21, "duration": 130 },
-    14: { "pin": 22, "duration": 140 },
-    15: { "pin": 23, "duration": 150 },
-    16: { "pin": 24, "duration": 160 }
+    "amount": 16,
+    "valves": {
+        1: { "pin": 3, "duration": 10, "color": "red" },
+        2: { "pin": 5, "duration": 20, "color": "blue" },
+        3: { "pin": 7, "duration": 30, "color": "green" },
+        4: { "pin": 8, "duration": 40, "color": "yellow" },
+        5: { "pin": 10, "duration": 50, "color": "orange" },
+        6: { "pin": 11, "duration": 60, "color": "lime" },
+        7: { "pin": 12, "duration": 70, "color": "light_blue" },
+        8: { "pin": 13, "duration": 80, "color": "white" },
+        9: { "pin": 15, "duration": 90, "color": "brown" },
+        10: { "pin": 16, "duration": 100, "color": "beige" },
+        11: { "pin": 18, "duration": 110, "color": "grey" },
+        12: { "pin": 19, "duration": 120, "color": "purple" },
+        13: { "pin": 21, "duration": 130, "color": "pink" },
+        14: { "pin": 22, "duration": 140, "color": "" },
+        15: { "pin": 23, "duration": 150, "color": "" },
+        16: { "pin": 24, "duration": 160, "color": "" },
+    }
 }
 
 LIGHT_BARRIER = {

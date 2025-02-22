@@ -7,12 +7,12 @@ class ValveControl:
     def __init__(self):
         """Initializes the valve control component."""
         self._logger = Logger("Valve Control")
-        self._valves = [False] * 16
+        self._valves = [False] * VALVES["amount"]
         GPIO.setmode(GPIO.BCM)
-        for i in range(16):
-            GPIO.setup(VALVES[i + 1]["pin"], GPIO.OUT)
-            GPIO.output(VALVES[i + 1]["pin"], GPIO.LOW)
-            self._logger.info(f"Valve {i + 1} initialized")
+        for i in range(1, VALVES["amount"] + 1):
+            GPIO.setup(VALVES["valves"][i]["pin"], GPIO.OUT)
+            GPIO.output(VALVES["valves"][i]["pin"], GPIO.LOW)
+            self._logger.info(f"Valve {i} initialized")
         self._logger.info("Valve control initialized")
 
     def __del__(self):
@@ -26,15 +26,15 @@ class ValveControl:
 
         :param valve_id: The ID of the valve to open
         """
-        if valve_id < 0 or valve_id > len(self._valves) - 1:
-            self._logger.error(f"Invalid valve ID: {valve_id + 1}")
+        if valve_id < 1 or valve_id > VALVES["amount"]:
+            self._logger.error(f"Invalid valve ID: {valve_id}")
             return
-        if self._valves[valve_id]:
-            self._logger.warning(f"Trying to open valve {valve_id + 1} while it is already open!")
+        if self._valves[valve_id - 1]:
+            self._logger.warning(f"Trying to open valve {valve_id} while it is already open!")
             return
-        GPIO.output(VALVES[valve_id + 1]["pin"], GPIO.HIGH)
-        self._valves[valve_id] = True
-        self._logger.info(f"Valve {valve_id + 1} opened")
+        GPIO.output(VALVES["valves"][valve_id]["pin"], GPIO.HIGH)
+        self._valves[valve_id - 1] = True
+        self._logger.info(f"Valve {valve_id} opened")
 
     def close_valve(self, valve_id):
         """
@@ -42,18 +42,19 @@ class ValveControl:
 
         :param valve_id: The ID of the valve to close
         """
-        if valve_id < 0 or valve_id > len(self._valves) - 1:
-            self._logger.error(f"Invalid valve ID: {valve_id + 1}")
+        if valve_id < 1 or valve_id > VALVES["amount"]:
+            self._logger.error(f"Invalid valve ID: {valve_id}")
             return
-        if not self._valves[valve_id]:
-            self._logger.warning(f"Trying to close valve {valve_id + 1} while it is already closed!")
+        if not self._valves[valve_id - 1]:
+            self._logger.warning(f"Trying to close valve {valve_id} while it is already closed!")
             return
-        GPIO.output(VALVES[valve_id + 1]["pin"], GPIO.LOW)
-        self._valves[valve_id] = False
-        self._logger.info(f"Valve {valve_id + 1} closed")
+        GPIO.output(VALVES["valves"][valve_id]["pin"], GPIO.LOW)
+        self._valves[valve_id - 1] = False
+        self._logger.info(f"Valve {valve_id} closed")
 
     def close_all_valves(self):
         """Closes all valves."""
-        for i in range(len(self._valves)):
-            if self._valves[i]:
+        for i in range(1, VALVES["amount"] + 1):
+            if self._valves[i - 1]:
                 self.close_valve(i)
+        self._logger.info("All valves closed")
