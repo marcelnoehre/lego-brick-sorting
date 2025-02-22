@@ -1,4 +1,6 @@
 import RPi.GPIO as GPIO
+import time
+import threading
 from services.logger import Logger
 from config.hardware_config import VALVES
 
@@ -20,6 +22,11 @@ class ValveControl:
         self.close_all_valves()
         GPIO.cleanup()
 
+    def _close_valve_after_delay(self, valve_id):
+        """Closes the valve after a delay."""
+        time.sleep(VALVES["open_duration"])
+        self.close_valve(valve_id)
+
     def open_valve(self, valve_id):
         """
         Opens the specified valve.
@@ -34,6 +41,7 @@ class ValveControl:
             return
         GPIO.output(VALVES["valves"][valve_id]["pin"], GPIO.HIGH)
         self._valves[valve_id - 1] = True
+        threading.Thread(target=self._close_valve_after_delay, args=(valve_id)).start()
         self._logger.info(f"Valve {valve_id} opened")
 
     def close_valve(self, valve_id):

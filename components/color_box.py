@@ -4,13 +4,14 @@ import numpy as np
 import threading
 from picamera2 import Picamera2
 from services.logger import Logger
-from config.hardware_config import CAMERA_MODULE
+from config.hardware_config import CAMERA_MODULE, VALVES
 
 class ColorBox:
-    def __init__(self):
+    def __init__(self, callback):
         """Initializes the camera module."""
         self._logger = Logger("Color Box")
         self._is_running = False
+        self.callback = callback
         self._picam = None
         self._thread = None
         self._stop_event = threading.Event()
@@ -84,6 +85,7 @@ class ColorBox:
             current_colors = current_colors if len(current_colors) > 0 else [{"color": None, "size": 0}]
 
             if self.detected_color is not None and current_colors[0]["color"] != self.detected_color:
+                self.callback(self._get_valve_id(self.detected_color))
                 self.badge_text = f"{self.detected_color} left the frame"
                 self.badge_color = self.detected_color
                 self.badge_timer = time.time()
@@ -97,3 +99,9 @@ class ColorBox:
             self.detected_color = current_colors[0]["color"]
             cv2.imshow("Color Box", frame)
             cv2.waitKey(1)
+
+    def _get_valve_id(self, color):
+        for id, valve in VALVES["valves"].items():
+            if valve["color"] == color:
+                return id
+        return None
