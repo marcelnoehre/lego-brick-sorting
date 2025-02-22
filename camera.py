@@ -62,6 +62,7 @@ color_ranges = {
 
 detected_color = None
 badge = None
+badge_color = None
 timer = 0
 
 while True:
@@ -84,12 +85,14 @@ while True:
 
     if detected_color is not None and current_colors[0]["color"] != detected_color:
         badge = f"{detected_color} left the frame"
+        badge_color = detected_color
         timer = time.time()
 
-    if badge and time.time() - timer < 1:
-        cv2.rectangle(frame, (380, 0), (400, 20), color_map[detected_color], -1)
+    if badge_color and badge and time.time() - timer < 1:
+        cv2.rectangle(frame, (380, 0), (400, 20), color_map[badge_color], -1)
     else:
         badge = None
+        badge_color = None
     
     detected_color = current_colors[0]["color"]
     
