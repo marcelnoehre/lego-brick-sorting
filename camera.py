@@ -4,7 +4,7 @@ from picamera2 import Picamera2
 
 # Initialize the PiCamera
 picam2 = Picamera2()
-picam2.configure(picam2.create_preview_configuration(main={'size': (800, 800)}))
+picam2.configure(picam2.create_preview_configuration(main={'size': (400, 400)}))
 picam2.start()
 
 def detect_color(frame, lower_bound, upper_bound, color_name):
@@ -34,17 +34,14 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
         "Pink": (255, 105, 180)
     }
 
-    offset = 0  # Labels
-
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
-    if cv2.contourArea(contours[:1]) > 1000: # Filter small contour
-        x, y, w, h = cv2.boundingRect(contours[:1])
+    if cv2.contourArea(contours[0]) > 1000: # Filter small contour
+        x, y, w, h = cv2.boundingRect(contours[0])
         cv2.rectangle(frame, (x, y), (x + w, y + h), color_map[color_name], 2)
-        cv2.putText(frame, color_name, (x, y - 10 - offset), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
-        offset += 15
-        return frame, color_name
+        cv2.putText(frame, color_name, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+        return frame, color_name, cv2.contourArea(contours[0])
     else:
-        return frame, None
+        return frame, None, 0
 
 color_ranges = {
     "Red": (np.array([0, 120, 70]), np.array([10, 255, 255])),
@@ -62,7 +59,7 @@ color_ranges = {
     "Pink": (np.array([160, 100, 100]), np.array([175, 255, 255]))
 }
 
-detected_colors = []
+detected_color = None
 
 while True:
     # Capture frame from PiCamera
@@ -72,14 +69,18 @@ while True:
     # Detect colors
     current_colors = []
     for color, (lower, upper) in color_ranges.items():
-        frame, color_name = detect_color(frame, lower, upper, color)
+        frame, color_name, size = detect_color(frame, lower, upper, color)
         if color_name:
-            current_colors.append(color_name)
+            current_colors.append({
+                "color": color_name,
+                "size": size
+            })
+
+    current_colors = sorted(current_colors, key=lambda x: x["size"], reverse=True)
+    if current_colors[0] != detected_color:
+        print(detected_color, "left the frame")
     
-    for color in detected_colors:
-        if color not in current_colors:
-            print(f"{color} left the frame")
-    detected_colors = current_colors
+    detected_color = current_colors[0]
     
     # Show output
     cv2.imshow("Color Detection", frame)
