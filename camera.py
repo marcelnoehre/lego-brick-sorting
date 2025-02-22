@@ -79,7 +79,7 @@ while True:
     current_colors = sorted(current_colors, key=lambda x: x["size"], reverse=True)
     current_colors = current_colors if len(current_colors) > 0 else [{"color": None, "size": 0}]
 
-    if current_colors[0]["color"] != detected_color:
+    if detected_color is not None and current_colors[0]["color"] != detected_color:
         print(detected_color, "left the frame")
     
     detected_color = current_colors[0]["color"]
