@@ -89,7 +89,7 @@ while True:
         timer = time.time()
 
     if badge_color and badge and time.time() - timer < 1:
-        cv2.rectangle(frame, (380, 0), (400, 20), color_map[badge_color], -1)
+        cv2.rectangle(frame, (350, 0), (400, 50), color_map[badge_color], -1)
     else:
         badge = None
         badge_color = None
