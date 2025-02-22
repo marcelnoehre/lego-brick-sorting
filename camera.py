@@ -35,7 +35,7 @@ def detect_color(frame, lower_bound, upper_bound, color_name):
     }
 
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
-    if cv2.contourArea(contours[0]) > 1000: # Filter small contour
+    if len (contours) > 0 and cv2.contourArea(contours[0]) > 1000: # Filter small contour
         x, y, w, h = cv2.boundingRect(contours[0])
         cv2.rectangle(frame, (x, y), (x + w, y + h), color_map[color_name], 2)
         cv2.putText(frame, color_name, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
@@ -77,10 +77,12 @@ while True:
             })
 
     current_colors = sorted(current_colors, key=lambda x: x["size"], reverse=True)
-    if current_colors[0] != detected_color:
+    current_colors = current_colors if len(current_colors) > 0 else [{"color": None, "size": 0}]
+
+    if current_colors[0]["color"] != detected_color:
         print(detected_color, "left the frame")
     
-    detected_color = current_colors[0]
+    detected_color = current_colors[0]["color"]
     
     # Show output
     cv2.imshow("Color Detection", frame)
