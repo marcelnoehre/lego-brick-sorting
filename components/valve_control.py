@@ -10,8 +10,8 @@ class ValveControl:
         self._valves = [False] * 16
         GPIO.setmode(GPIO.BCM)
         for i in range(16):
-            GPIO.setup(VALVES.get(i + 1).get("pin"), GPIO.OUT)
-            GPIO.output(VALVES.get(i + 1).get("pin"), GPIO.LOW)
+            GPIO.setup(VALVES[i + 1]["pin"], GPIO.OUT)
+            GPIO.output(VALVES[i + 1]["pin"], GPIO.LOW)
             self._logger.info(f"Valve {i + 1} initialized")
         self._logger.info("Valve control initialized")
 
@@ -32,7 +32,7 @@ class ValveControl:
         if self._valves[valve_id]:
             self._logger.warning(f"Trying to open valve {valve_id + 1} while it is already open!")
             return
-        GPIO.output(VALVES.get(valve_id + 1).get("pin"), GPIO.HIGH)
+        GPIO.output(VALVES[valve_id + 1]["pin"], GPIO.HIGH)
         self._valves[valve_id] = True
         self._logger.info(f"Valve {valve_id + 1} opened")
 
@@ -48,7 +48,7 @@ class ValveControl:
         if not self._valves[valve_id]:
             self._logger.warning(f"Trying to close valve {valve_id + 1} while it is already closed!")
             return
-        GPIO.output(VALVES.get(valve_id + 1).get("pin"), GPIO.LOW)
+        GPIO.output(VALVES[valve_id + 1]["pin"], GPIO.LOW)
         self._valves[valve_id] = False
         self._logger.info(f"Valve {valve_id + 1} closed")
 

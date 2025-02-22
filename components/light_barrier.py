@@ -9,7 +9,7 @@ class LightBarrier:
         self._is_running = False
         self.callback = callback
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(LIGHT_BARRIER.get("pin"), GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(LIGHT_BARRIER["pin"], GPIO.IN, pull_up_down=GPIO.PUD_UP)
         self._logger.info("Light barrier initialized")
 
     def __del__(self):
@@ -23,7 +23,7 @@ class LightBarrier:
         if self._is_running:
             self._logger.warning("Trying to start the light barrier sensor while it is already running!")
             return
-        GPIO.add_event_detect(LIGHT_BARRIER.get("pin"), GPIO.BOTH, callback=self.handle_event, bouncetime=LIGHT_BARRIER.get("bounce_time"))
+        GPIO.add_event_detect(LIGHT_BARRIER["pin"], GPIO.BOTH, callback=self.handle_event, bouncetime=LIGHT_BARRIER["bounce_time"])
         self._is_running = True
         self._logger.info("Light barrier monitoring started")
 
@@ -32,7 +32,7 @@ class LightBarrier:
         if not self._is_running:
             self._logger.warning("Trying to stop the light barrier sensor while it is already stopped!")
             return
-        GPIO.remove_event_detect(LIGHT_BARRIER.get("pin"))
+        GPIO.remove_event_detect(LIGHT_BARRIER["pin"])
         self._is_running = False
         self._logger.info("Light barrier monitoring stopped")
 
