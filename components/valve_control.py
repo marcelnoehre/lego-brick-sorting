@@ -13,7 +13,7 @@ class ValveControl:
         GPIO.setmode(GPIO.BCM)
         for i in range(1, VALVES["amount"] + 1):
             GPIO.setup(VALVES["valves"][i]["pin"], GPIO.OUT)
-            GPIO.output(VALVES["valves"][i]["pin"], GPIO.LOW)
+            GPIO.output(VALVES["valves"][i]["pin"], GPIO.HIGH)
             self._logger.info(f"Valve {i} initialized")
         self._logger.info("Valve control initialized")
 
@@ -39,7 +39,7 @@ class ValveControl:
         if self._valves[valve_id - 1]:
             self._logger.warning(f"Trying to open valve {valve_id} while it is already open!")
             return
-        GPIO.output(VALVES["valves"][valve_id]["pin"], GPIO.HIGH)
+        GPIO.output(VALVES["valves"][valve_id]["pin"], GPIO.LOW)
         self._valves[valve_id - 1] = True
         threading.Thread(target=self._close_valve_after_delay, args=(valve_id,)).start()
         self._logger.info(f"Valve {valve_id} opened")
@@ -56,7 +56,7 @@ class ValveControl:
         if not self._valves[valve_id - 1]:
             self._logger.warning(f"Trying to close valve {valve_id} while it is already closed!")
             return
-        GPIO.output(VALVES["valves"][valve_id]["pin"], GPIO.LOW)
+        GPIO.output(VALVES["valves"][valve_id]["pin"], GPIO.HIGH)
         self._valves[valve_id - 1] = False
         self._logger.info(f"Valve {valve_id} closed")
 
