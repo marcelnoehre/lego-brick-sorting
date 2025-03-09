@@ -41,7 +41,7 @@ class ValveControl:
             return
         GPIO.output(VALVES["valves"][valve_id]["pin"], GPIO.HIGH)
         self._valves[valve_id - 1] = True
-        threading.Thread(target=self._close_valve_after_delay, args=(valve_id)).start()
+        threading.Thread(target=self._close_valve_after_delay, args=(valve_id,)).start()
         self._logger.info(f"Valve {valve_id} opened")
 
     def close_valve(self, valve_id):
