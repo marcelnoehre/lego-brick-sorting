@@ -83,7 +83,7 @@ class ColorBox:
             current_colors = current_colors if len(current_colors) > 0 else [{"color": None, "size": 0}]
 
             if self.detected_color is not None and current_colors[0]["color"] != self.detected_color:
-                threading.Thread(target=self._execute_callback, args=(self.detected_color)).start()
+                threading.Thread(target=self._execute_callback, args=(self.detected_color,)).start()
                 self._logger.info(f"{self.detected_color} left the frame")
                 self.badge_color = self.detected_color
                 self.badge_timer = time.time()
