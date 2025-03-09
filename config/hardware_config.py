@@ -42,37 +42,37 @@ VALVES = {
     "open_duration": 0.25,
     "amount": 16,
     "valves": {
-        1: { "pin": 3, "duration": 10, "color": "red" },
-        2: { "pin": 5, "duration": 20, "color": "blue" },
-        3: { "pin": 7, "duration": 30, "color": "green" },
-        4: { "pin": 8, "duration": 40, "color": "yellow" },
-        5: { "pin": 10, "duration": 50, "color": "orange" },
-        6: { "pin": 11, "duration": 60, "color": "lime" },
-        7: { "pin": 12, "duration": 70, "color": "light_blue" },
-        8: { "pin": 13, "duration": 80, "color": "white" },
-        9: { "pin": 15, "duration": 90, "color": "brown" },
-        10: { "pin": 16, "duration": 100, "color": "beige" },
-        11: { "pin": 18, "duration": 110, "color": "grey" },
-        12: { "pin": 19, "duration": 120, "color": "purple" },
-        13: { "pin": 21, "duration": 130, "color": "pink" },
-        14: { "pin": 22, "duration": 140, "color": "" },
-        15: { "pin": 23, "duration": 150, "color": "" },
-        16: { "pin": 24, "duration": 160, "color": "" },
+        1: { "pin": 2, "duration": 10, "color": "red" },
+        2: { "pin": 3, "duration": 20, "color": "blue" },
+        3: { "pin": 4, "duration": 30, "color": "green" },
+        4: { "pin": 14, "duration": 40, "color": "yellow" },
+        5: { "pin": 15, "duration": 50, "color": "orange" },
+        6: { "pin": 17, "duration": 60, "color": "lime" },
+        7: { "pin": 18, "duration": 70, "color": "light_blue" },
+        8: { "pin": 27, "duration": 80, "color": "white" },
+        9: { "pin": 22, "duration": 90, "color": "brown" },
+        10: { "pin": 23, "duration": 100, "color": "beige" },
+        11: { "pin": 24, "duration": 110, "color": "grey" },
+        12: { "pin": 10, "duration": 120, "color": "purple" },
+        13: { "pin": 9, "duration": 130, "color": "pink" },
+        14: { "pin": 25, "duration": 140, "color": "" },
+        15: { "pin": 11, "duration": 150, "color": "" },
+        16: { "pin": 8, "duration": 160, "color": "" },
     }
 }
 
 LIGHT_BARRIER = {
-    "pin": 26,
+    "pin": 7,
     "bounce_time": 200
 }
 
 VIBRATORY_PLATE = {
     "motor_a": {
-        "in_1": 32,
-        "in_2": 36
+        "in_1": 12,
+        "in_2": 16
     },
     "motor_b": {
-        "in_1": 38,
-        "in_2": 40
+        "in_3": 20,
+        "in_4": 21
     }
 }

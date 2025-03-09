@@ -26,7 +26,7 @@ class VibratoryPlate:
             self._logger.warning("Trying to start the vibratory plate while it is already running!")
             return
         GPIO.output(VIBRATORY_PLATE["motor_a"]["in_1"], GPIO.HIGH)
-        GPIO.output(VIBRATORY_PLATE["motor_b"]["in_1"], GPIO.HIGH)
+        GPIO.output(VIBRATORY_PLATE["motor_b"]["in_3"], GPIO.HIGH)
         self._is_running = True
         self._logger.info("Vibratory plate started")
 
@@ -36,6 +36,6 @@ class VibratoryPlate:
             self._logger.warning("Trying to stop the vibratory plate while it is already stopped!")
             return
         GPIO.output(VIBRATORY_PLATE["motor_a"]["in_1"], GPIO.LOW)
-        GPIO.output(VIBRATORY_PLATE["motor_b"]["in_1"], GPIO.LOW)
+        GPIO.output(VIBRATORY_PLATE["motor_b"]["in_3"], GPIO.LOW)
         self._is_running = False
         self._logger.info("Vibratory plate stopped")
