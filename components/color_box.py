@@ -14,9 +14,9 @@ class ColorBox:
         self._picam = None
         self._thread = None
         self._stop_event = threading.Event()
-        self.detected_color = None
-        self.badge_color = None
-        self.badge_timer = 0
+        self._detected_color = None
+        self._badge_color = None
+        self._badge_timer = 0
         self._logger.info("Color box initialized")
 
     def __del__(self):
@@ -82,18 +82,18 @@ class ColorBox:
             current_colors = sorted(current_colors, key=lambda x: x["size"], reverse=True)
             current_colors = current_colors if len(current_colors) > 0 else [{"color": None, "size": 0}]
 
-            if self.detected_color is not None and current_colors[0]["color"] != self.detected_color:
-                threading.Thread(target=self._execute_callback, args=(self.detected_color,)).start()
-                self._logger.info(f"{self.detected_color} left the frame")
-                self.badge_color = self.detected_color
-                self.badge_timer = time.time()
+            if self._detected_color is not None and current_colors[0]["color"] != self._detected_color:
+                threading.Thread(target=self._execute_callback, args=(self._detected_color,)).start()
+                self._logger.info(f"{self._detected_color} left the frame")
+                self._badge_color = self._detected_color
+                self._badge_timer = time.time()
 
-            if self.badge_color and time.time() - self.badge_timer < 1:
-                cv2.rectangle(frame, CAMERA_MODULE["badge"]["top_left"], CAMERA_MODULE["badge"]["bottom_right"], CAMERA_MODULE["color_map"][self.badge_color], -1)
+            if self._badge_color and time.time() - self._badge_timer < 1:
+                cv2.rectangle(frame, CAMERA_MODULE["badge"]["top_left"], CAMERA_MODULE["badge"]["bottom_right"], CAMERA_MODULE["color_map"][self._badge_color], -1)
             else:
-                self.badge_color = None
+                self._badge_color = None
 
-            self.detected_color = current_colors[0]["color"]
+            self._detected_color = current_colors[0]["color"]
             cv2.imshow("Color Box", frame)
             cv2.waitKey(1)
 
