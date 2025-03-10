@@ -1,4 +1,12 @@
 # Lego Brick Sorting
+The Lego Brick Sorting Machine is designed to automate the sorting of Lego bricks into 16 distinct colors. This system simplifies the organization of large Lego collections, making it easier to find and separate bricks by color. Optionally, a vibratory plate can be added to improve the separation of bricks before sorting.
+
+## Table of Contents
+- [Installing Dependencies on Raspberry Pi](#installing-dependencies-on-raspberry-pi)
+- [Hardware Requirements](#hardware-requirements)
+- [How to Run the Machine](#how-to-run-the-machine)
+- [How to Run Isolated Tests](#how-to-run-isolated-tests)
+- [Contributing](#contributing)
 
 ## Installing Dependencies on Raspberry Pi
 This guide outlines how to set up a Python environment and install dependencies from a `requirements.txt` file.
@@ -200,3 +208,11 @@ Once the program is running, you'll be presented with the available commands.
 
 > [!WARNING]  
 > Please ensure that all required hardware components are properly set up and connected before running the program. Improper connections may result in malfunction or damage to the components.
+
+## Contributing
+
+Feel free to fork the project and modify the logic to suit your needs. A formatter script is included to help maintain consistent code formatting across the project. You can run it with the following command:
+
+```bash
+sh formatter.sh
+```
