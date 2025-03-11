@@ -6,6 +6,12 @@ CAMERA_MODULE = {
         "top_left": (350, 0),
         "bottom_right": (400, 50)
     },
+    "target_line": 350,
+    "padding": 25,
+    "threshold": {
+        "contour": 1000,
+        "tracking": 100
+    },
     "color_ranges": {
         "red": (np.array([0, 120, 70]), np.array([4, 255, 255])),
         "blue": (np.array([105, 150, 70]), np.array([150, 255, 255])),
