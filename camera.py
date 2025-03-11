@@ -15,7 +15,7 @@ def detect_colors(frame, lower_bound, upper_bound, color_name):
 
     # Create a mask for the color
     mask = cv2.inRange(hsv, lower_bound, upper_bound)
-    
+
     # Find contours in the mask
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     detected_objects = []
@@ -23,7 +23,7 @@ def detect_colors(frame, lower_bound, upper_bound, color_name):
     for contour in contours:
         if cv2.contourArea(contour) > 1000:  # Filter small objects
             x, y, w, h = cv2.boundingRect(contour)
-            cv2.rectangle(frame, (x, y), (x + w, y + h), CAMERA_MODULE.color_map[color_name], 2)
+            cv2.rectangle(frame, (x, y), (x + w, y + h), CAMERA_MODULE["color_map"][color_name], 2)
             cv2.putText(frame, color_name, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
             detected_objects.append({"color": color_name, "size": cv2.contourArea(contour)})
     
@@ -40,7 +40,7 @@ while True:
     
     detected_objects = []
     
-    for color, (lower, upper) in CAMERA_MODULE.color_ranges.items():
+    for color, (lower, upper) in CAMERA_MODULE["color_ranges"].items():
         frame, objects = detect_colors(frame, lower, upper, color)
         detected_objects.extend(objects)
     
@@ -53,7 +53,7 @@ while True:
         timer = time.time()
     
     if badge_color and badge and time.time() - timer < 1:
-        cv2.rectangle(frame, (350, 0), (400, 50), CAMERA_MODULE.color_map[badge_color], -1)
+        cv2.rectangle(frame, (350, 0), (400, 50), CAMERA_MODULE["color_map"][badge_color], -1)
     else:
         badge = None
         badge_color = None
