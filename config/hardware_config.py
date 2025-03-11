@@ -3,8 +3,9 @@ import numpy as np
 CAMERA_MODULE = {
     "resolution": (400, 400),
     "badge": {
-        "top_left": (350, 0),
-        "bottom_right": (400, 50)
+        "width": 50,
+        "height": 25,
+        "timer": 2
     },
     "target_line": 350,
     "padding": 25,

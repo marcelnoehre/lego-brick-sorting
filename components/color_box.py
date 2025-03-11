@@ -20,6 +20,7 @@ class ColorBox:
         self._next_object_id = 0
         self._tracked_objects = {}
         self._initial_colors = {}
+        self._recently_detected = []
         self._logger.info("Color box initialized")
 
     def __del__(self):
@@ -73,7 +74,7 @@ class ColorBox:
         return frame, _detected_objects
 
     def _update_tracked_objects(self, detected_objects):
-        """"""
+        """Updates the tracked objects based on the detected objects."""
         _new_tracked = {}
         for _obj_id, (_prev_centroid, _color) in self._tracked_objects.items():
             _matched = False
@@ -89,6 +90,7 @@ class ColorBox:
                 if _prev_centroid[0] > CAMERA_MODULE["target_line"] - CAMERA_MODULE["threshold"]["tracking"]:
                     threading.Thread(target=self._execute_callback, args=(_color,)).start()
                     self._logger.info(f"Object {_color} (ID: {_obj_id}) reached the tracking line")
+                    self._recently_detected.append((_color, time.time()))
         
         for _obj in detected_objects:
             if _obj["centroid"][0] > CAMERA_MODULE["threshold"]["tracking"]:
@@ -105,12 +107,17 @@ class ColorBox:
             _frame = self._picam.capture_array()
             _frame = cv2.cvtColor(_frame, cv2.COLOR_BGR2RGB)
             _detected_objects = []
-
             for _color, (_lower, _upper) in CAMERA_MODULE["color_ranges"].items():
                 _frame, _objects = self._detect_colors(_frame, _lower, _upper, _color)
                 _detected_objects.extend(_objects)
-
             self._update_tracked_objects(_detected_objects)
+
+            _offset = 0
+            self._recently_detected = [(_color, _time) for _color, _time in self._recently_detected if time.time() - _time < CAMERA_MODULE["badge"]["timer"]]
+            for _i, (_color, _) in enumerate(self._recently_detected):
+                cv2.rectangle(_frame, (_frame.shape[1] - CAMERA_MODULE["badge"]["width"], _offset), (_frame.shape[1], CAMERA_MODULE["badge"]["height"] + _offset), CAMERA_MODULE["color_map"][_color], -1)
+                _offset += CAMERA_MODULE["badge"]["height"]
+
             cv2.line(_frame, (CAMERA_MODULE["target_line"], 0), (CAMERA_MODULE["target_line"], _frame.shape[0]), (255, 255, 255), 2)
             cv2.imshow("Color Detection", _frame)
             cv2.waitKey(1)
