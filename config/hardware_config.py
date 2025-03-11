@@ -7,7 +7,7 @@ CAMERA_MODULE = {
         "bottom_right": (400, 50)
     },
     "color_ranges": {
-        "red": (np.array([0, 120, 70]), np.array([10, 255, 255])),
+        "red": (np.array([0, 120, 70]), np.array([4, 255, 255])),
         "blue": (np.array([105, 150, 70]), np.array([150, 255, 255])),
         "green": (np.array([40, 70, 70]), np.array([80, 255, 255])),
         "yellow": (np.array([22, 150, 100]), np.array([30, 255, 255])),
@@ -15,7 +15,7 @@ CAMERA_MODULE = {
         "lime": (np.array([35, 50, 70]), np.array([50, 255, 255])),
         "white": (np.array([0, 0, 220]), np.array([180, 30, 255])),
         "light_blue": (np.array([90, 150, 100]), np.array([104, 255, 255])),
-        "brown": (np.array([8, 100, 20]), np.array([18, 255, 90])),
+        "brown": (np.array([5, 100, 20]), np.array([18, 255, 90])),
         "beige": (np.array([12, 50, 150]), np.array([22, 120, 255])),
         "light_grey": (np.array([0, 0, 100]), np.array([180, 30, 160])),
         "dark_grey": (np.array([0, 0, 50]), np.array([180, 30, 90]))
