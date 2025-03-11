@@ -87,7 +87,7 @@ class ColorBox:
                     break
             if not _matched:
                 if _prev_centroid[0] > CAMERA_MODULE["target_line"] - CAMERA_MODULE["threshold"]["tracking"]:
-                    self._execute_callback(_color)
+                    threading.Thread(target=self._execute_callback, args=(_color,)).start()
                     self._logger.info(f"Object {_color} (ID: {_obj_id}) reached the tracking line")
         
         for _obj in detected_objects:
