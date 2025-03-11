@@ -9,7 +9,7 @@ picam2 = Picamera2()
 picam2.configure(picam2.create_preview_configuration(main={'size': (400, 400)}))
 picam2.start()
 
-END_LINE_X = 375  # 25 pixels before the right border
+END_LINE_X = 350  # 25 pixels before the right border
 def detect_colors(frame, lower_bound, upper_bound, color_name):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     frame_height = frame.shape[0]
