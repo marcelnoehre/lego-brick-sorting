@@ -17,7 +17,8 @@ CAMERA_MODULE = {
         "light_blue": (np.array([90, 160, 100]), np.array([105, 255, 255])),
         "brown": (np.array([8, 100, 20]), np.array([18, 255, 90])),
         "beige": (np.array([12, 50, 150]), np.array([22, 120, 255])),
-        "grey": (np.array([0, 0, 40]), np.array([180, 20, 160]))
+        "light_grey": (np.array([0, 0, 100]), np.array([180, 30, 160])),
+        "dark_grey": (np.array([0, 0, 50]), np.array([180, 30, 90]))
     },
     "color_map": {
         "red": (0, 0, 255),
@@ -30,7 +31,8 @@ CAMERA_MODULE = {
         "light_blue": (173, 216, 230),
         "brown": (42, 42, 165),
         "beige": (245, 245, 220),
-        "grey": (128, 128, 128)
+        "light_grey": (128, 128, 128),
+        "dark_grey": (105, 105, 105)
     }
 }
 
@@ -44,13 +46,13 @@ VALVES = {
         4: { "pin": 14, "duration": 40, "color": "yellow" },
         5: { "pin": 15, "duration": 50, "color": "orange" },
         6: { "pin": 17, "duration": 60, "color": "lime" },
-        7: { "pin": 18, "duration": 70, "color": "light_blue" },
-        8: { "pin": 27, "duration": 80, "color": "white" },
-        9: { "pin": 22, "duration": 90, "color": "brown" },
-        10: { "pin": 23, "duration": 100, "color": "beige" },
-        11: { "pin": 24, "duration": 110, "color": "grey" },
-        12: { "pin": 10, "duration": 120, "color": "purple" },
-        13: { "pin": 9, "duration": 130, "color": "pink" },
+        7: { "pin": 18, "duration": 70, "color": "white" },
+        8: { "pin": 27, "duration": 80, "color": "light_grey" },
+        9: { "pin": 22, "duration": 90, "color": "dark_grey" },
+        10: { "pin": 23, "duration": 100, "color": "" },
+        11: { "pin": 24, "duration": 110, "color": "" },
+        12: { "pin": 10, "duration": 120, "color": "" },
+        13: { "pin": 9, "duration": 130, "color": "" },
         14: { "pin": 25, "duration": 140, "color": "" },
         15: { "pin": 11, "duration": 150, "color": "" },
         16: { "pin": 8, "duration": 160, "color": "" },
