@@ -13,13 +13,11 @@ CAMERA_MODULE = {
         "yellow": (np.array([22, 150, 100]), np.array([30, 255, 255])),
         "orange": (np.array([10, 150, 100]), np.array([20, 255, 255])),
         "lime": (np.array([35, 50, 70]), np.array([50, 255, 255])),
-        "light_blue": (np.array([90, 100, 100]), np.array([100, 255, 255])),
-        "white": (np.array([0, 0, 200]), np.array([180, 50, 255])),
-        "brown": (np.array([10, 50, 20]), np.array([18, 255, 100])),
-        "beige": (np.array([12, 40, 150]), np.array([20, 100, 255])),
-        "grey": (np.array([0, 0, 50]), np.array([180, 10, 180])),
-        "purple": (np.array([140, 100, 50]), np.array([160, 255, 255])),
-        "pink": (np.array([160, 100, 100]), np.array([175, 255, 255]))
+        "white": (np.array([0, 0, 220]), np.array([180, 30, 255])),
+        "light_blue": (np.array([90, 160, 100]), np.array([105, 255, 255])),
+        "brown": (np.array([8, 100, 20]), np.array([18, 255, 90])),
+        "beige": (np.array([12, 50, 150]), np.array([22, 120, 255])),
+        "grey": (np.array([0, 0, 40]), np.array([180, 20, 160]))
     },
     "color_map": {
         "red": (0, 0, 255),
@@ -28,13 +26,11 @@ CAMERA_MODULE = {
         "yellow": (0, 255, 255),
         "orange": (0, 165, 255),
         "lime": (144, 238, 144),
-        "light_blue": (173, 216, 230),
         "white": (255, 255, 255),
+        "light_blue": (173, 216, 230),
         "brown": (42, 42, 165),
         "beige": (245, 245, 220),
-        "grey": (128, 128, 128),
-        "purple": (128, 0, 128),
-        "pink": (255, 105, 180)
+        "grey": (128, 128, 128)
     }
 }
 
