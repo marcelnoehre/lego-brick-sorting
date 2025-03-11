@@ -13,10 +13,10 @@ CAMERA_MODULE = {
         "yellow": (np.array([22, 150, 100]), np.array([30, 255, 255])),
         "orange": (np.array([10, 150, 100]), np.array([20, 255, 255])),
         "lime": (np.array([35, 50, 70]), np.array([50, 255, 255])),
-        "white": (np.array([0, 0, 220]), np.array([180, 30, 255])),
+        "white": (np.array([0, 0, 210]), np.array([180, 40, 255])),
         "light_blue": (np.array([90, 150, 100]), np.array([104, 255, 255])),
         "brown": (np.array([5, 100, 20]), np.array([18, 255, 90])),
-        "beige": (np.array([12, 50, 150]), np.array([22, 120, 255])),
+        "sand": (np.array([10, 40, 130]), np.array([30, 180, 255])),
         "light_grey": (np.array([0, 0, 100]), np.array([180, 30, 160])),
         "dark_grey": (np.array([0, 0, 50]), np.array([180, 30, 90]))
     },
@@ -29,8 +29,8 @@ CAMERA_MODULE = {
         "lime": (144, 238, 144),
         "white": (255, 255, 255),
         "light_blue": (173, 216, 230),
-        "brown": (42, 42, 165),
-        "beige": (245, 245, 220),
+        "brown": (25, 50, 150),
+        "sand": (245, 245, 220),
         "light_grey": (128, 128, 128),
         "dark_grey": (105, 105, 105)
     }
