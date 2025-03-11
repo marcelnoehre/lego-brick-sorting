@@ -11,13 +11,18 @@ picam2.start()
 
 def detect_colors(frame, lower_bound, upper_bound, color_name):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    mask = cv2.inRange(hsv, lower_bound, upper_bound)
+    frame_height = frame.shape[0]
+    frame_width = frame.shape[1]
+    roi = frame[25:frame_height-25, :]
+    hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+    mask = cv2.inRange(hsv_roi, lower_bound, upper_bound)
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     detected_objects = []
     
     for contour in contours:
         if cv2.contourArea(contour) > 1000:  # Filter small objects
             x, y, w, h = cv2.boundingRect(contour)
+            y += 25  # Adjust for ROI
             cx, cy = x + w // 2, y + h // 2  # Compute centroid
             cv2.rectangle(frame, (x, y), (x + w, y + h), CAMERA_MODULE["color_map"][color_name], 2)
             cv2.putText(frame, color_name, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
@@ -40,7 +45,7 @@ def update_tracked_objects(detected_objects):
     for obj_id, (prev_centroid, color) in tracked_objects.items():
         matched = False
         for obj in detected_objects:
-            if np.linalg.norm(np.array(prev_centroid) - np.array(obj["centroid"])) < 50:  # Threshold for tracking
+            if np.linalg.norm(np.array(prev_centroid) - np.array(obj["centroid"])) < 100:  # Threshold for tracking
                 # Maintain the initial color to avoid misclassification
                 obj_color = initial_colors.get(obj_id, obj["color"])
                 new_tracked[obj_id] = (obj["centroid"], obj_color)
@@ -50,10 +55,11 @@ def update_tracked_objects(detected_objects):
                 break
         
         if not matched:
-            print(f"Object {color} (ID: {obj_id}) left the frame")
+            if prev_centroid[0] > 300:
+                print(f"Object {color} (ID: {obj_id}) left the frame")
     
     for obj in detected_objects:
-        if obj["centroid"][0] > 50:  # Prevent new colors from appearing in the middle
+        if obj["centroid"][0] > 100:  # Prevent new colors from appearing in the middle
             continue
         new_tracked[next_object_id] = (obj["centroid"], obj["color"])
         initial_colors[next_object_id] = obj["color"]
