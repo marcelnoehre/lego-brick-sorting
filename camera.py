@@ -9,6 +9,7 @@ picam2 = Picamera2()
 picam2.configure(picam2.create_preview_configuration(main={'size': (400, 400)}))
 picam2.start()
 
+END_LINE_X = 375  # 25 pixels before the right border
 def detect_colors(frame, lower_bound, upper_bound, color_name):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     frame_height = frame.shape[0]
@@ -46,7 +47,6 @@ def update_tracked_objects(detected_objects):
         matched = False
         for obj in detected_objects:
             if np.linalg.norm(np.array(prev_centroid) - np.array(obj["centroid"])) < 100:  # Threshold for tracking
-                # Maintain the initial color to avoid misclassification
                 obj_color = initial_colors.get(obj_id, obj["color"])
                 new_tracked[obj_id] = (obj["centroid"], obj_color)
                 initial_colors[obj_id] = obj_color  # Ensure it is saved
@@ -55,8 +55,8 @@ def update_tracked_objects(detected_objects):
                 break
         
         if not matched:
-            if prev_centroid[0] > 300:
-                print(f"Object {color} (ID: {obj_id}) left the frame")
+            if prev_centroid[0] > END_LINE_X - 100:
+                print(f"Object {color} (ID: {obj_id}) reached the tracking line")
     
     for obj in detected_objects:
         if obj["centroid"][0] > 100:  # Prevent new colors from appearing in the middle
@@ -84,6 +84,9 @@ while True:
     else:
         badge = None
         badge_color = None
+    
+    # Draw the vertical tracking line
+    cv2.line(frame, (END_LINE_X, 0), (END_LINE_X, frame.shape[0]), (255, 255, 255), 2)
     
     cv2.imshow("Color Detection", frame)
     
