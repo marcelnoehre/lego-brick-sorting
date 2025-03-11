@@ -26,22 +26,25 @@ def detect_colors(frame, lower_bound, upper_bound, color_name):
     return frame, detected_objects
 
 tracked_objects = {}
+initial_colors = {}  # Store original colors for objects
 next_object_id = 0
 badge = None
 badge_color = None
 timer = 0
 
 def update_tracked_objects(detected_objects):
-    global next_object_id, tracked_objects
+    global next_object_id, tracked_objects, initial_colors
     current_centroids = [obj["centroid"] for obj in detected_objects]
     new_tracked = {}
     
     for obj_id, (prev_centroid, color) in tracked_objects.items():
-        # Check if previous centroid is close to any current centroids
         matched = False
         for obj in detected_objects:
             if np.linalg.norm(np.array(prev_centroid) - np.array(obj["centroid"])) < 50:  # Threshold for tracking
-                new_tracked[obj_id] = (obj["centroid"], obj["color"])
+                # Maintain the initial color to avoid misclassification
+                obj_color = initial_colors.get(obj_id, obj["color"])
+                new_tracked[obj_id] = (obj["centroid"], obj_color)
+                initial_colors[obj_id] = obj_color  # Ensure it is saved
                 matched = True
                 detected_objects.remove(obj)
                 break
@@ -49,9 +52,11 @@ def update_tracked_objects(detected_objects):
         if not matched:
             print(f"Object {color} (ID: {obj_id}) left the frame")
     
-    # Assign new IDs to unmatched objects
     for obj in detected_objects:
+        if obj["centroid"][0] > 50:  # Prevent new colors from appearing in the middle
+            continue
         new_tracked[next_object_id] = (obj["centroid"], obj["color"])
+        initial_colors[next_object_id] = obj["color"]
         next_object_id += 1
     
     tracked_objects = new_tracked
