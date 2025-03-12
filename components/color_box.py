@@ -3,6 +3,7 @@ import time
 import threading
 import numpy as np
 from picamera2 import Picamera2
+from collections import Counter
 from services.logger import Logger
 from config.hardware_config import CAMERA_MODULE, VALVES
 
@@ -20,6 +21,7 @@ class ColorBox:
         self._next_object_id = 0
         self._tracked_objects = {}
         self._initial_colors = {}
+        self._object_color_history = {}
         self._recently_detected = []
         self._logger.info("Color box initialized")
 
@@ -80,9 +82,12 @@ class ColorBox:
             _matched = False
             for _obj in detected_objects:
                 if np.linalg.norm(np.array(_prev_centroid) - np.array(_obj["centroid"])) < CAMERA_MODULE["threshold"]["tracking"]:
-                    _obj_color = self._initial_colors.get(_obj_id, _obj["color"])
-                    _new_tracked[_obj_id] = (_obj["centroid"], _obj_color)
-                    self._initial_colors[_obj_id] = _obj_color
+                    if _obj_id not in self._object_color_history:
+                        self._object_color_history[_obj_id] = []
+                    self._object_color_history[_obj_id].append(_obj["color"])
+                    _most_common_color = Counter(self._object_color_history[_obj_id]).most_common(1)[0][0]
+                    _new_tracked[_obj_id] = (_obj["centroid"], _most_common_color)
+                    self._initial_colors[_obj_id] = _most_common_color
                     _matched = True
                     detected_objects.remove(_obj)
                     break
@@ -97,6 +102,7 @@ class ColorBox:
                 continue
             _new_tracked[self._next_object_id] = (_obj["centroid"], _obj["color"])
             self._initial_colors[self._next_object_id] = _obj["color"]
+            self._object_color_history[self._next_object_id] = [_obj["color"]]
             self._next_object_id += 1
         
         self._tracked_objects = _new_tracked
