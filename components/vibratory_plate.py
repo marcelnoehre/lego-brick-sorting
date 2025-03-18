@@ -1,4 +1,6 @@
 import RPi.GPIO as GPIO
+import time
+import threading
 from services.logger import Logger
 from config.hardware_config import VIBRATORY_PLATE
 
@@ -20,6 +22,11 @@ class VibratoryPlate:
             self.stop()
         GPIO.cleanup()
 
+    def _restart_after_delay(self):
+        """Restarts the vibratory plate after a delay."""
+        time.sleep(VIBRATORY_PLATE["timeout"])
+        self.start()
+
     def start(self):
         """Starts the vibratory plate."""
         if self._is_running:
@@ -38,4 +45,5 @@ class VibratoryPlate:
         GPIO.output(VIBRATORY_PLATE["motor_a"]["in_1"], GPIO.LOW)
         GPIO.output(VIBRATORY_PLATE["motor_b"]["in_3"], GPIO.LOW)
         self._is_running = False
+        threading.Thread(target=self._restart_after_delay).start()
         self._logger.info("Vibratory plate stopped")

@@ -72,6 +72,7 @@ LIGHT_BARRIER = {
 }
 
 VIBRATORY_PLATE = {
+    "timeout": 2,
     "motor_a": {
         "in_1": 12,
         "in_2": 16
