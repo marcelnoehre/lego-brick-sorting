@@ -11,17 +11,14 @@ class VibratoryPlate:
         self._is_running = False
         GPIO.setmode(GPIO.BCM)
         for pin in VIBRATORY_PLATE["motor"].values():
-            GPIO.setup(VIBRATORY_PLATE[pin], GPIO.OUT)
-            GPIO.output(VIBRATORY_PLATE[pin], GPIO.LOW)
+            GPIO.setup(pin, GPIO.OUT)
+            GPIO.output(pin, GPIO.LOW)
         self._logger.info("Vibratory plate initialized")
 
     def __del__(self):
         """Cleans up the vibratory plate component."""
         if self._is_running:
-            GPIO.output(VIBRATORY_PLATE["motor"]["in_1"], GPIO.LOW)
-            GPIO.output(VIBRATORY_PLATE["motor"]["in_3"], GPIO.LOW)
-            self._is_running = False
-            self._logger.info("Vibratory plate stopped")
+            self.stop(False)
         GPIO.cleanup()
 
     def _restart_after_delay(self):
@@ -39,7 +36,7 @@ class VibratoryPlate:
         self._is_running = True
         self._logger.info("Vibratory plate started")
 
-    def stop(self):
+    def stop(self, restart = True):
         """Stops the vibratory plate."""
         if not self._is_running:
             self._logger.warning("Trying to stop the vibratory plate while it is already stopped!")
@@ -47,5 +44,6 @@ class VibratoryPlate:
         GPIO.output(VIBRATORY_PLATE["motor"]["in_1"], GPIO.LOW)
         GPIO.output(VIBRATORY_PLATE["motor"]["in_3"], GPIO.LOW)
         self._is_running = False
-        threading.Thread(target=self._restart_after_delay).start()
+        if restart:
+            threading.Thread(target=self._restart_after_delay).start()
         self._logger.info("Vibratory plate stopped")

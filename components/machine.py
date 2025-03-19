@@ -12,6 +12,8 @@ class Machine:
         self._is_running = False
         self._valve_control = ValveControl()
         self._color_box = ColorBox(self._valve_control.open_valve)
+        self._vibratory_plate = None
+        self._light_barrier = None
         if FLAGS["vibratory_plate"]:
             self._vibratory_plate = VibratoryPlate()
             self._light_barrier = LightBarrier(self._vibratory_plate.stop)
@@ -36,6 +38,6 @@ class Machine:
         self._valve_control.close_all_valves()
         if FLAGS["vibratory_plate"]:
             self._light_barrier.stop()
-            self._vibratory_plate.stop()
+            self._vibratory_plate.stop(False)
         self._is_running = False
         self._logger.info("Machine stopped")
