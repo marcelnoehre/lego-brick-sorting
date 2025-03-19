@@ -14,7 +14,7 @@ class Machine:
         self._color_box = ColorBox(self._valve_control.open_valve)
         if FLAGS["vibratory_plate"]:
             self._vibratory_plate = VibratoryPlate()
-            self._light_barrier = LightBarrier(self._vibratory_plate.start)
+            self._light_barrier = LightBarrier(self._vibratory_plate.stop)
         self._logger.info("Machine initialized")
 
     def __del__(self):
