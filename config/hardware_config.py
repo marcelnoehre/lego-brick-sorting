@@ -26,10 +26,10 @@ CAMERA_MODULE = {
         "sand": (np.array([10, 40, 130]), np.array([30, 180, 200])),
         "light_grey": (np.array([0, 0, 100]), np.array([180, 30, 160])),
         "dark_grey": (np.array([0, 0, 50]), np.array([180, 30, 90])),
-        "rosa": (np.array([160, 50, 120]), np.array([170, 255, 255])),
-        "pink": (np.array([160, 100, 150]), np.array([175, 255, 255])),
-        "dark_pink": (np.array([165, 120, 100]), np.array([180, 255, 255])),
-        "lavendel": (np.array([140, 50, 120]), np.array([155, 255, 255]))
+        "rosa": (np.array([160, 50, 180]), np.array([175, 180, 255])),
+        "pink": (np.array([155, 80, 160]), np.array([162, 255, 255])),
+        "magenta": (np.array([166, 50, 100]), np.array([180, 255, 255])),
+        "lavendel": (np.array([125, 30, 120]), np.array([155, 255, 240]))
     },
     "color_map": {
         "red": (0, 0, 255),
@@ -46,8 +46,8 @@ CAMERA_MODULE = {
         "dark_grey": (105, 105, 105),
         "rosa": (203, 192, 255),
         "pink": (147, 20, 255),
-        "dark_pink": (90, 0, 139),
-        "flieder": (200, 162, 200)
+        "magenta": (90, 0, 139),
+        "lavendel": (200, 162, 200)
     }
 }
 
@@ -69,8 +69,8 @@ VALVES = {
         12: { "pin": 10, "duration": 19, "color": "dark_grey" },
         13: { "pin": 9, "duration": 21.5, "color": "rosa" },
         14: { "pin": 25, "duration": 21.5, "color": "pink" },
-        15: { "pin": 11, "duration": 24, "color": "dark_pink" },
-        16: { "pin": 8, "duration": 24, "color": "flieder" }
+        15: { "pin": 11, "duration": 24, "color": "magenta" },
+        16: { "pin": 8, "duration": 24, "color": "lavendel" }
     }
 }
 
