@@ -10,16 +10,18 @@ class VibratoryPlate:
         self._logger = Logger("Vibratory Plate")
         self._is_running = False
         GPIO.setmode(GPIO.BCM)
-        for motor in VIBRATORY_PLATE.values():
-            for pin in motor.values():
-                GPIO.setup(VIBRATORY_PLATE[pin], GPIO.OUT)
-                GPIO.output(VIBRATORY_PLATE[pin], GPIO.LOW)
+        for pin in VIBRATORY_PLATE["motor"].values():
+            GPIO.setup(VIBRATORY_PLATE[pin], GPIO.OUT)
+            GPIO.output(VIBRATORY_PLATE[pin], GPIO.LOW)
         self._logger.info("Vibratory plate initialized")
 
     def __del__(self):
         """Cleans up the vibratory plate component."""
         if self._is_running:
-            self.stop()
+            GPIO.output(VIBRATORY_PLATE["motor"]["in_1"], GPIO.LOW)
+            GPIO.output(VIBRATORY_PLATE["motor"]["in_3"], GPIO.LOW)
+            self._is_running = False
+            self._logger.info("Vibratory plate stopped")
         GPIO.cleanup()
 
     def _restart_after_delay(self):
@@ -32,8 +34,8 @@ class VibratoryPlate:
         if self._is_running:
             self._logger.warning("Trying to start the vibratory plate while it is already running!")
             return
-        GPIO.output(VIBRATORY_PLATE["motor_a"]["in_1"], GPIO.HIGH)
-        GPIO.output(VIBRATORY_PLATE["motor_b"]["in_3"], GPIO.HIGH)
+        GPIO.output(VIBRATORY_PLATE["motor"]["in_1"], GPIO.HIGH)
+        GPIO.output(VIBRATORY_PLATE["motor"]["in_3"], GPIO.HIGH)
         self._is_running = True
         self._logger.info("Vibratory plate started")
 
@@ -42,8 +44,8 @@ class VibratoryPlate:
         if not self._is_running:
             self._logger.warning("Trying to stop the vibratory plate while it is already stopped!")
             return
-        GPIO.output(VIBRATORY_PLATE["motor_a"]["in_1"], GPIO.LOW)
-        GPIO.output(VIBRATORY_PLATE["motor_b"]["in_3"], GPIO.LOW)
+        GPIO.output(VIBRATORY_PLATE["motor"]["in_1"], GPIO.LOW)
+        GPIO.output(VIBRATORY_PLATE["motor"]["in_3"], GPIO.LOW)
         self._is_running = False
         threading.Thread(target=self._restart_after_delay).start()
         self._logger.info("Vibratory plate stopped")
