@@ -11,7 +11,8 @@ CAMERA_MODULE = {
     "padding": 25,
     "threshold": {
         "contour": 1000,
-        "tracking": 100
+        "tracking": 100,
+        "frequency": 0.5
     },
     "color_ranges": {
         "red": (np.array([0, 120, 70]), np.array([5, 255, 255])),

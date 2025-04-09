@@ -23,6 +23,8 @@ class ColorBox:
         self._initial_colors = {}
         self._object_color_history = {}
         self._recently_detected = []
+        self._recently_detected_ids = []
+        self._blocked_ids = set()
         self._logger.info("Color box initialized")
 
     def __del__(self):
@@ -93,9 +95,11 @@ class ColorBox:
                     break
             if not _matched:
                 if _prev_centroid[0] > CAMERA_MODULE["target_line"] - CAMERA_MODULE["threshold"]["tracking"]:
-                    threading.Thread(target=self._execute_callback, args=(_color,)).start()
+                    threading.Thread(target=self._execute_callback, args=(_color, _obj_id,)).start()
                     self._logger.info(f"Object {_color} (ID: {_obj_id}) reached the tracking line")
                     self._recently_detected.append((_color, time.time()))
+                    self._recently_detected_ids.append((_obj_id, time.time()))
+                    self._update_blocked_ids()
         
         for _obj in detected_objects:
             if _obj["centroid"][0] > CAMERA_MODULE["threshold"]["tracking"]:
@@ -106,6 +110,14 @@ class ColorBox:
             self._next_object_id += 1
         
         self._tracked_objects = _new_tracked
+
+    def _update_blocked_ids(self):
+        """Updates the blocked IDs based on the recently detected objects."""
+        self._recently_detected_ids = [
+            (_obj_id, _time) for _obj_id, _time in self._recently_detected_ids
+            if time.time() - _time <= CAMERA_MODULE["threshold"]["frequency"]
+        ]
+        self._blocked_ids.update(_obj_id for _obj_id, _ in self._recently_detected_ids)
 
     def _run_detection(self):
         """Continuously captures frames and detects colors."""
@@ -128,10 +140,14 @@ class ColorBox:
             cv2.imshow("Color Detection", _frame)
             cv2.waitKey(1)
 
-    def _execute_callback(self, color):
+    def _execute_callback(self, color, object_id):
         """Executes the callback function."""
         for id, valve in VALVES["valves"].items():
             if valve["color"] == color:
                 time.sleep(valve["duration"])
-                self.callback(id)
+                if object_id in self._blocked_ids:
+                    self._logger.info(f"Object {color} (ID: {object_id}) is blocked, skipping callback")
+                else:
+                    self._logger.info(f"Executing callback for object {color} (ID: {object_id})")
+                    self.callback(id)
                 break
