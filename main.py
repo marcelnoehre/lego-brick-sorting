@@ -13,10 +13,10 @@ def print_commands():
 
 
 def user_input():
-    """Handles the user input. The user can start, stop, or quit the program."""
     global machine_thread
     global is_running
     global machine
+    machine_thread = None
     is_running = False
     machine = None
     logger = Logger("System")
@@ -37,6 +37,9 @@ def user_input():
             if is_running:
                 logger.info("Stopping the sorting machine")
                 machine.stop()
+                machine_thread.join(timeout=2)
+                machine_thread = None
+                machine = None
                 is_running = False
             else:
                 logger.warning("The sorting machine is not running!")
