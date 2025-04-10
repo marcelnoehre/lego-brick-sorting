@@ -117,7 +117,8 @@ class ColorBox:
             (_obj_id, _time) for _obj_id, _time in self._recently_detected_ids
             if time.time() - _time <= CAMERA_MODULE["threshold"]["frequency"]
         ]
-        self._blocked_ids.update(_obj_id for _obj_id, _ in self._recently_detected_ids)
+        if len(self._recently_detected_ids) > 1:
+            self._blocked_ids.update(_obj_id for _obj_id, _ in self._recently_detected_ids)
 
     def _run_detection(self):
         """Continuously captures frames and detects colors."""
