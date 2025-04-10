@@ -16,7 +16,9 @@ def user_input():
     """Handles the user input. The user can start, stop, or quit the program."""
     global machine_thread
     global is_running
+    global machine
     is_running = False
+    machine = None
     logger = Logger("System")
 
     while True:
@@ -42,7 +44,7 @@ def user_input():
         elif command == "quit":
             if is_running:
                 logger.warning("The sorting machine is still running! Please stop it before quitting.")
-                return
+                continue
             logger.info("Quitting the program")
             exit()
 
