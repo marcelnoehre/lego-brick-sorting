@@ -32,6 +32,7 @@ class ColorBox:
             self.stop()
         cv2.destroyAllWindows()
         self._picam.stop()
+        self._picam.close()
 
     def start(self):
         """Starts the color box."""
