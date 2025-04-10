@@ -15,7 +15,6 @@ class ColorBox:
         self.callback = callback
         self._picam = Picamera2()
         self._picam.configure(self._picam.create_preview_configuration(main={'size': CAMERA_MODULE["resolution"]}))
-        self._picam.start()
         self._thread = None
         self._stop_event = threading.Event()
         self._next_object_id = 0
@@ -39,6 +38,7 @@ class ColorBox:
         if self._is_running:
             self._logger.warning("Trying to start the color box while it is already running!")
             return
+        self._picam.start()
         self._stop_event.clear()
         self._thread = threading.Thread(target=self._run_detection, daemon=True)
         self._thread.start()
@@ -53,6 +53,8 @@ class ColorBox:
         self._stop_event.set()
         if self._thread:
             self._thread.join()
+        cv2.destroyAllWindows()
+        self._picam.stop()
         self._is_running = False
         self._logger.info("Color box stopped")
 
