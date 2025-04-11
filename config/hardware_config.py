@@ -77,7 +77,7 @@ VALVES = {
 
 LIGHT_BARRIER = {
     "pin": 7,
-    "bounce_time": 200
+    "bounce_time": 100
 }
 
 VIBRATORY_PLATE = {
