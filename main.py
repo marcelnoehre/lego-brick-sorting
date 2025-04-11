@@ -41,6 +41,8 @@ def user_input():
                 machine_thread = None
                 machine = None
                 is_running = False
+                logger.info("Quitting the program")
+                exit()
             else:
                 logger.warning("The sorting machine is not running!")
 
