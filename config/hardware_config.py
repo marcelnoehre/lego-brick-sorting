@@ -56,22 +56,22 @@ VALVES = {
     "open_duration": 0.25,
     "amount": 16,
     "valves": {
-        1: { "pin": 2, "duration": 6.5, "color": "red" },
-        2: { "pin": 3, "duration": 6.5, "color": "blue" },
-        3: { "pin": 4, "duration": 9, "color": "green" },
-        4: { "pin": 14, "duration": 9, "color": "yellow" },
-        5: { "pin": 15, "duration": 11.5, "color": "orange" },
-        6: { "pin": 17, "duration": 11.5, "color": "lime" },
-        7: { "pin": 18, "duration": 14, "color": "white" },
-        8: { "pin": 27, "duration": 14, "color": "light_blue" },
-        9: { "pin": 22, "duration": 16.5, "color": "brown" },
-        10: { "pin": 23, "duration": 16.5, "color": "sand" },
-        11: { "pin": 24, "duration": 19, "color": "grey" },
-        12: { "pin": 10, "duration": 19, "color": "violett" },
-        13: { "pin": 9, "duration": 21.5, "color": "rosa" },
-        14: { "pin": 25, "duration": 21.5, "color": "pink" },
-        15: { "pin": 11, "duration": 24, "color": "magenta" },
-        16: { "pin": 8, "duration": 24, "color": "lavendel" }
+        1: { "pin": 2, "duration": 4.3, "color": "red" },
+        2: { "pin": 3, "duration": 6.9, "color": "blue" },
+        3: { "pin": 4, "duration": 9.3, "color": "green" },
+        4: { "pin": 14, "duration": 11.8, "color": "yellow" },
+        5: { "pin": 15, "duration": 14.3, "color": "orange" },
+        6: { "pin": 17, "duration": 16.7, "color": "lime" },
+        7: { "pin": 18, "duration": 19.2, "color": "white" },
+        8: { "pin": 27, "duration": 21.3, "color": "light_blue" },
+        9: { "pin": 22, "duration": 4.5, "color": "brown" },
+        10: { "pin": 23, "duration": 6.9, "color": "sand" },
+        11: { "pin": 24, "duration": 9.4, "color": "grey" },
+        12: { "pin": 10, "duration": 11.9, "color": "violett" },
+        13: { "pin": 9, "duration": 14.4, "color": "rosa" },
+        14: { "pin": 25, "duration": 16.9, "color": "pink" },
+        15: { "pin": 11, "duration": 19.4, "color": "magenta" },
+        16: { "pin": 8, "duration": 21.3, "color": "lavendel" }
     }
 }
 
