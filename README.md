@@ -109,21 +109,26 @@ CAMERA_MODULE = {
     "padding": 25,
     "threshold": {
         "contour": 1000,
-        "tracking": 100
+        "tracking": 100,
+        "frequency": 0.5
     },
     "color_ranges": {
-        "red": (np.array([0, 120, 70]), np.array([6, 255, 255])),
-        "blue": (np.array([111, 150, 70]), np.array([150, 255, 255])),
+        "red": (np.array([0, 120, 70]), np.array([5, 255, 255])),
+        "blue": (np.array([111, 150, 140]), np.array([129, 255, 255])),
         "green": (np.array([40, 70, 70]), np.array([80, 255, 255])),
         "yellow": (np.array([22, 150, 100]), np.array([30, 255, 255])),
         "orange": (np.array([10, 150, 100]), np.array([20, 255, 255])),
         "lime": (np.array([35, 50, 70]), np.array([50, 255, 255])),
         "white": (np.array([0, 0, 210]), np.array([180, 40, 255])),
         "light_blue": (np.array([90, 100, 100]), np.array([110, 255, 255])),
-        "brown": (np.array([7, 100, 20]), np.array([18, 255, 90])),
+        "brown": (np.array([6, 100, 20]), np.array([18, 255, 90])),
         "sand": (np.array([10, 40, 130]), np.array([30, 180, 200])),
-        "light_grey": (np.array([0, 0, 100]), np.array([180, 30, 160])),
-        "dark_grey": (np.array([0, 0, 50]), np.array([180, 30, 90]))
+        "grey": (np.array([0, 0, 90]), np.array([180, 30, 170])),
+        "violett": (np.array([130, 220, 100]), np.array([150, 255, 145])),
+        "rosa": (np.array([150, 60, 180]), np.array([160, 120, 220])),
+        "pink": (np.array([150, 180, 180]), np.array([163, 215, 220])),
+        "magenta": (np.array([160, 216, 80]), np.array([170, 255, 170])),
+        "lavendel": (np.array([120, 30, 180]), np.array([140, 110, 240]))
     },
     "color_map": {
         "red": (0, 0, 255),
@@ -134,10 +139,14 @@ CAMERA_MODULE = {
         "lime": (69, 217, 191),
         "white": (255, 255, 255),
         "light_blue": (222, 184, 135),
-        "brown": (20, 40, 120),
+        "brown": (15, 30, 100),
         "sand": (135, 206, 235),
-        "light_grey": (128, 128, 128),
-        "dark_grey": (105, 105, 105)
+        "grey": (128, 128, 128),
+        "violett": (128, 0, 126),
+        "rosa": (203, 192, 255),
+        "pink": (147, 20, 255),
+        "magenta": (90, 0, 139),
+        "lavendel": (200, 162, 200)
     }
 }
 
@@ -145,36 +154,35 @@ VALVES = {
     "open_duration": 0.25,
     "amount": 16,
     "valves": {
-        1: { "pin": 2, "duration": 6.5, "color": "red" },
-        2: { "pin": 3, "duration": 6.5, "color": "blue" },
-        3: { "pin": 4, "duration": 9, "color": "green" },
-        4: { "pin": 14, "duration": 9, "color": "yellow" },
-        5: { "pin": 15, "duration": 11.5, "color": "orange" },
-        6: { "pin": 17, "duration": 11.5, "color": "lime" },
-        7: { "pin": 18, "duration": 14, "color": "white" },
-        8: { "pin": 27, "duration": 14, "color": "light_blue" },
-        9: { "pin": 22, "duration": 16.5, "color": "brown" },
-        10: { "pin": 23, "duration": 16.5, "color": "sand" },
-        11: { "pin": 24, "duration": 19, "color": "light_grey" },
-        12: { "pin": 10, "duration": 19, "color": "dark_grey" },
-        13: { "pin": 9, "duration": 21.5, "color": "" },
-        14: { "pin": 25, "duration": 21.5, "color": "" },
-        15: { "pin": 11, "duration": 24, "color": "" },
-        16: { "pin": 8, "duration": 24, "color": "" }
+        1: { "pin": 2, "duration": 4.3, "color": "red" },
+        2: { "pin": 3, "duration": 6.9, "color": "blue" },
+        3: { "pin": 4, "duration": 9.3, "color": "green" },
+        4: { "pin": 14, "duration": 11.8, "color": "yellow" },
+        5: { "pin": 15, "duration": 14.3, "color": "orange" },
+        6: { "pin": 17, "duration": 16.7, "color": "lime" },
+        7: { "pin": 18, "duration": 19.2, "color": "white" },
+        8: { "pin": 27, "duration": 21.3, "color": "light_blue" },
+        9: { "pin": 22, "duration": 4.5, "color": "brown" },
+        10: { "pin": 23, "duration": 6.9, "color": "sand" },
+        11: { "pin": 24, "duration": 9.4, "color": "grey" },
+        12: { "pin": 10, "duration": 11.9, "color": "violett" },
+        13: { "pin": 9, "duration": 14.4, "color": "rosa" },
+        14: { "pin": 25, "duration": 16.9, "color": "pink" },
+        15: { "pin": 11, "duration": 19.4, "color": "magenta" },
+        16: { "pin": 8, "duration": 21.3, "color": "lavendel" }
     }
 }
 
 LIGHT_BARRIER = {
     "pin": 7,
-    "bounce_time": 200
+    "bounce_time": 100
 }
 
 VIBRATORY_PLATE = {
-    "motor_a": {
+    "timeout": 2,
+    "motor": {
         "in_1": 12,
-        "in_2": 16
-    },
-    "motor_b": {
+        "in_2": 16,
         "in_3": 20,
         "in_4": 21
     }
@@ -188,6 +196,13 @@ Run the main script by executing the following command:
 python3 main.py
 ```
 
+If the `vibratory_plate` flag is set to true, the light barrier will be triggered.
+In this case, you need to run the script with sudo to ensure access to the required GPIO pin:
+
+```bash
+sudo python3 main.py
+```
+
 Once the program is running, you'll be presented with the available commands.
 * **start** - Starts the sorting machine
 * **stop** - Stops the sorting machine
@@ -195,24 +210,6 @@ Once the program is running, you'll be presented with the available commands.
 
 > [!WARNING]  
 > Please ensure that all hardware components are properly set up and connected before running the program. Improper connections may result in malfunction or damage to the components.
-
-## How to Run Isolated Tests
-Run the test script by executing the following command:
-
-```bash
-python3 test.py
-```
-
-Once the program is running, you'll be presented with the available commands.
-* **0** - Quit testing
-* **1** - Activate user defined valve
-* **2** - Get the color of the current brick
-* **3** - Run the vibratory plate for 5 seconds
-* **4** - Await trigger of the light barrier
-* **5** - Run vibratory plate until brick is detected
-
-> [!WARNING]  
-> Please ensure that all required hardware components are properly set up and connected before running the program. Improper connections may result in malfunction or damage to the components.
 
 ## Contributing
 
